@@ -10,6 +10,8 @@
   </h1>
   <p>If you are using a pen name, you do not have to fill in the first name and last name boxes. If you are not using a pen name, the names in the first name and last name boxes will be used. If you are not using a pen name, and do not fill in first name or last name, all works published will go by "anonymous author".</p>
   <form>
+    <label for="email">E-mail</label><br>
+    <input type="email" id="email" name="email"><br>
     <label for="firstname">First Name</label><br>
     <input type="text" id="firstname" name="firstname"><br>
     <label for="lastname">Last Name</label><br>
@@ -22,6 +24,6 @@
     <label for="pwd">Password:</label><br>
     <input type="password" id="pwd" name="pwd">
   </form>
-
+  <button (click)="redirectTo()" class="margin">Register</button>
 </body>
 </html>

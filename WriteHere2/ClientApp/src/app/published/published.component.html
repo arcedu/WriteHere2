@@ -8,18 +8,33 @@
 </head>
 <body>
   <h1>Published Articles</h1>
-  <p>Published articles go here.</p>
-  <table style="width:100%">
-    <tr>
-      <th>Title</th>
-      <th>Date Published</th>
-      <th>Author</th>
-    </tr>
-    <tr>
-      <td><a href="https://localhost:44347/publishedtest">Adam and Bob Chapter 1</a></td>
-      <td>2020</td>
-      <td>Dennis Chan</td>
-    </tr>
+  <p>Welcome to the home page of all the published articles. On this page you will find articles to read.</p>
+  <button (click)="getArticleList()" class="margin">Reload Article List</button><br />
+  <div class="dropdown">
+    <button margin-bottom="20px" class="dropbtn">Filter</button>
+    <div class="dropdown-content">
+      <button class="dropdownbutton" onclick="alert('Sort by most views')">Most views</button>
+      <button class="dropdownbutton" onclick="alert('Sort by most likes')">Most likes</button>
+      <button class="dropdownbutton" onclick="alert('Sort by most recent')">Recent(default)</button>
+    </div>
+  </div>
+  <table style="width:90%">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Subtitle</th>
+        <th>Author</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of articles">
+        <td><a href="publisheddetails?id={{ a.id }}">{{ a.title }}</a></td>
+        <td>{{ a.subtitle }}</td>
+        <td>{{a.authorDisplayName }}</td>
+        <td>{{a.articleStatus}}</td>
+      </tr>
+    </tbody>
   </table>
 </body>
 </html>

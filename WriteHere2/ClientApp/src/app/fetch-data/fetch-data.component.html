@@ -3,6 +3,8 @@
 <p>This component demonstrates fetching data from the server.</p>
 
 <p *ngIf="!forecasts"><em>Loading...</em></p>
+<button (click)="getArticleList()">Get Article List</button>
+<button (click)="getArticle()">Get Article </button>
 
 <table class='table' *ngIf="forecasts">
   <thead>
@@ -19,6 +21,12 @@
       <td>{{ forecast.temperatureC }}</td>
       <td>{{ forecast.temperatureF }}</td>
       <td>{{ forecast.summary }}</td>
+    </tr>
+    <tr *ngFor="let a of articles">
+      <td>{{ a.title }}</td>
+      <td>{{ a.subtitle }}</td>
+      <td>{{ a.authorDisplayName }}</td>
+      <td>{{ a.firstName }}</td>
     </tr>
   </tbody>
 </table>

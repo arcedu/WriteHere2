@@ -5,15 +5,43 @@
     <title></title>
 </head>
 <body>
+  <h1>My Articles</h1>
   <h3>Liked articles</h3>
-  <a href="https://localhost:44347/publishedtest">Adam and Bob Chapter 1</a>
+  <a href="/publishedtest/">QQQQQ1</a>
   <h3>My articles</h3>
-  <a href="https://localhost:44347/publishedtest">Adam and Bob Chapter 1</a>
+  <a href="/publishedtest">Adam and Bob Chapter 1</a>
   <h3>My published articles</h3>
-  <a href="https://localhost:44347/publishedtest">Adam and Bob Chapter 1</a>
+  <a href="/publishedtest">Adam and Bob Chapter 1</a>
   <h3>My unpublished articles</h3>
-  <a href="https://localhost:44347/unpublishedtest">Adam and Bob Chapter 2</a>
+  <a href="/unpublishedtest">Adam and Bob Chapter 2</a>
   <h3>My rejected articles</h3>
-  <p>Hooray! No rejected articles.(actually i got lazy and i didn't want to make any more new files)</p>
+  <p>Hooray! No rejected articles.</p>
+  <h3>Write a new article!</h3>
+  <a href="/upload">New Article</a>
+
+
+  <p>Welcome to the home page of all the published articles. On this page you will find articles to read.</p>
+  <button (click)="getArticleList()">Reload Article List</button>
+
+  <table style="width:90%">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Subtitle</th>
+        <th>Author</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of articles">
+        <td><a href="/publishedtest?id={{ a.id }}" >{{ a.title }}</a></td>
+        <td>{{ a.subtitle }}</td>
+        <td>{{a.authorDisplayName }}</td>
+        <td>{{a.articleStatus}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <!--<h3>Write a new article!</h3>
+  <a href="https://localhost:44347/upload">New Article</a>-->
 </body>
 </html>

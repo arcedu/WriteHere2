@@ -9,6 +9,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { LoginComponent } from './login/login.component';
+import { ForgotComponent } from './forgot/forgot.component';
+import { UploadComponent } from './upload/upload.component';
 import { AboutUsComponent } from './aboutus/aboutus.component';
 import { MyAccountComponent } from './myaccount/myaccount.component';
 import { MemberdashboardComponent } from './memberdashboard/memberdashboard.component';
@@ -18,6 +20,9 @@ import { RegisterComponent } from './register/register.component';
 import { UnpublishedtestComponent } from './published/unpublishedtest.component';
 import { MyArticlesComponent } from './myarticles/myarticles.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { FileUploadComponent } from './fileupload/fileupload.component';
+import { HallOFameComponent } from './hallofame/hallofame.component';
+import { PublishedDetailsComponent } from './publisheddetails/publisheddetails.component';
 
 @NgModule({
   declarations: [
@@ -30,11 +35,16 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     PublishedComponent,
     PublishedTestComponent,
     LoginComponent,
+    ForgotComponent,
+    UploadComponent,
     AboutUsComponent,
     RegisterComponent,
     UnpublishedtestComponent,
     MyAccountComponent,
-    MyArticlesComponent
+    MyArticlesComponent,
+    FileUploadComponent,
+    PublishedDetailsComponent,
+    HallOFameComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -44,6 +54,9 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'login', component: LoginComponent },
+      { path: 'forgot', component: ForgotComponent },
+      { path: 'upload', component: UploadComponent },
+      { path: 'fileupload', component: FileUploadComponent },
       { path: 'unpublishedtest', component: UnpublishedtestComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'aboutus', component: AboutUsComponent },
@@ -52,7 +65,10 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
       { path: 'publishedtest', component: PublishedTestComponent },
       { path: 'memberdashboard', component: MemberdashboardComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'myarticles', component:MyArticlesComponent },
+      { path: 'myarticles', component: MyArticlesComponent },
+      { path: 'publisheddetails', component: PublishedDetailsComponent },
+      { path: 'hallofame', component: HallOFameComponent }
+
     ])
   ],
   providers: [],

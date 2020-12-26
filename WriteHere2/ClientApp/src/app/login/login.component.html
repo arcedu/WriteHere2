@@ -6,18 +6,20 @@
 </head>
 <body>
   <h1>
-    Login here
+    Login 
   </h1>
-  <form>
+  <div>
+
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username"><br>
     <label for="pwd">Password:</label><br>
     <input type="password" id="pwd" name="pwd">
-  </form>
-  <button (click)="redirectTo()">Login</button>
+  </div>
+  <button (click)="redirectTo()" class="margin">Login</button>
   <br>
-  <a href="https://localhost:44347/register">Don't have an account? Register here.</a>
-
+  <a href="https://localhost:44347/register">Don't have an account? Register here</a>
+  <br />
+  <a href="https://localhost:44347/forgot">Forgot Password?</a>
 
 </body>
 </html>
