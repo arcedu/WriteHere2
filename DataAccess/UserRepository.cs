@@ -6,41 +6,48 @@ using System.Collections.Generic;
 
 namespace DataAccess
 {
-    public static class ArticleRepository
+    public static class UserRepository
     {
-        public static Article GetArticle(Guid id)
+        public static UserInfo GetUserInfoByUserName(string userName)
         {
-            SqlDataReader rdr = null;
+            return null;
+        }
+
+        public static UserInfo GetUserInfoById(Guid id)
+        {
+            SqlDataReader rdrUser = null;
+            SqlDataReader rdrRole = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.vwArticleList WHERE ID ='" + id+"'" , conn);
-            var a = new Article();
+            SqlCommand cmdUser = new SqlCommand("SELECT * FROM dbo.User WHERE ID ='" + id+"'" , conn);
+            SqlCommand cmdRole = new SqlCommand("SELECT * FROM dbo.UserRole WHERE UserID ='" + id + "'", conn);
+            var user = new UserInfo();
             try
             {
                 conn.Open();
-                rdr = cmd.ExecuteReader();
-
-                if (rdr.Read())
-                {
-                    // get the results of each column
-                    a.Id = (System.Guid)rdr["ID"];
-                    a.AuthorDisplayName = (string)rdr["AuthorDisplayName"];
-                    a.Title = (string)rdr["Title"];
-                    a.Subtitle = (string)rdr["Subtitle"];
-                    a.FirstName = (string)rdr["FirstName"];
-                    a.LastName = (string)rdr["LastName"];
-                    a.Content = (string)rdr["Content"];
-                    a.ArticleStatus = (string)rdr["ArticleStatus"];
+                rdrUser = cmdUser.ExecuteReader();
+                rdrRole = cmdRole.ExecuteReader();
+                if (rdrUser.Read())
+                {      // get the results of each column
+                    user.Id = (System.Guid)rdrUser["ID"];
+                    user.UserName = (string)rdrUser["UserName"];
+                    var role = new Role();
+                    while (rdrRole.Read())
+                    {
+                        role.Id = (System.Guid)rdrRole["ID"];
+                        role.RoleName = (string)rdrRole["RoleName"];
+                    }
                 }
             }
             finally
             {
-                if (rdr != null) { rdr.Close(); }
+                if (rdrUser != null) { rdrUser.Close(); }
+                if (rdrRole != null) { rdrRole.Close(); }
                 if (conn != null) { conn.Close(); }
             }
-            return a;
+            return user;
         }
 
-        public static List<Article> GetArticleList()
+        public static List<UserInfo> GetUserInfoList()
         {
             SqlDataReader rdr = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);

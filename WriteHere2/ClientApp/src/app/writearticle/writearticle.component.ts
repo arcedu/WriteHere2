@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-upload-component',
-  templateUrl: './upload.component.html',
+  selector: 'app-writearticle-component',
+  templateUrl: './writearticle.component.html',
  // styleUrls: ['.././site.component.css']
 })
-export class UploadComponent {
+export class writearticleComponent {
   public currentCount = 0;
 
   public redirectTo() {
@@ -14,6 +14,6 @@ export class UploadComponent {
 
   }
   public redirectToFiles() {
-    location.replace("https://localhost:44347/fileupload")
+    location.replace("https://localhost:44347/filewritearticle")
   }
 }
