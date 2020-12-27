@@ -10,7 +10,7 @@ export class LoginComponent {
 
   public redirectTo() {
  
-    location.replace("https://localhost:44347/memberdashboard")
+    location.replace("/memberdashboard")
 
   }
 }

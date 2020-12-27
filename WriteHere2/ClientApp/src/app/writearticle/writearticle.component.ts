@@ -10,10 +10,10 @@ export class writearticleComponent {
 
   public redirectTo() {
  
-    location.replace("https://localhost:44347/memberdashboard")
+    location.replace("/memberdashboard")
 
   }
   public redirectToFiles() {
-    location.replace("https://localhost:44347/filewritearticle")
+    location.replace("/filewritearticle")
   }
 }

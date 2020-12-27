@@ -52,7 +52,7 @@ namespace DataAccess
             SqlDataReader rdr = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);
             SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.vwArticleList", conn);
-            var list = new List<Article>();
+            var list = new List<UserInfo>();
             try
             {
                 conn.Open();
@@ -60,16 +60,16 @@ namespace DataAccess
 
                 while (rdr.Read())
                 {
-                    var a = new Article();
+                    var a = new UserInfo();
                     // get the results of each column
                     a.Id = (System.Guid)rdr["ID"];
-                    a.AuthorDisplayName = (string)rdr["AuthorDisplayName"];
-                    a.Title = (string)rdr["Title"];
-                    a.Subtitle = (string)rdr["Subtitle"];
-                    a.FirstName = (string)rdr["FirstName"];
-                    a.LastName = (string)rdr["LastName"];
-                    a.ArticleStatus = (string)rdr["ArticleStatus"];
-                    a.Content = (string)rdr["Content"];
+                    //a.AuthorDisplayName = (string)rdr["AuthorDisplayName"];
+                    //a.Title = (string)rdr["Title"];
+                    //a.Subtitle = (string)rdr["Subtitle"];
+                    //a.FirstName = (string)rdr["FirstName"];
+                    //a.LastName = (string)rdr["LastName"];
+                    //a.ArticleStatus = (string)rdr["ArticleStatus"];
+                    //a.Content = (string)rdr["Content"];
                     list.Add(a);
                 }
             }

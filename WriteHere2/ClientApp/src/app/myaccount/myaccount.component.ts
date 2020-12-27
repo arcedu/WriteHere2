@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class MyAccountComponent {
 
   public redirectTo() {
-    location.replace("https://localhost:44347/myaccount")
+    location.replace("/myaccount")
   }
 
   }
