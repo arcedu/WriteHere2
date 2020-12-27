@@ -7,13 +7,13 @@ import { Component } from '@angular/core';
 })
 export class MemberdashboardComponent {
   public redirectToMyAccount() {
-    location.replace("https://localhost:44347/myaccount")
+    location.replace("/myaccount")
   }
   public redirectToPublished() {
-    location.replace("https://localhost:44347/published")
+    location.replace("/published")
   }
   public redirectToMyArticles() {
-    location.replace("https://localhost:44347/myarticles")
+    location.replace("/myarticles")
   }
   }
 
