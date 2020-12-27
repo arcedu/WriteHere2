@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotComponent } from './forgot/forgot.component';
-import { UploadComponent } from './upload/upload.component';
+import { writearticleComponent } from './writearticle/writearticle.component';
 import { AboutUsComponent } from './aboutus/aboutus.component';
 import { MyAccountComponent } from './myaccount/myaccount.component';
 import { MemberdashboardComponent } from './memberdashboard/memberdashboard.component';
@@ -36,7 +36,7 @@ import { PublishedDetailsComponent } from './publisheddetails/publisheddetails.c
     PublishedTestComponent,
     LoginComponent,
     ForgotComponent,
-    UploadComponent,
+    writearticleComponent,
     AboutUsComponent,
     RegisterComponent,
     UnpublishedtestComponent,
@@ -55,7 +55,7 @@ import { PublishedDetailsComponent } from './publisheddetails/publisheddetails.c
       { path: 'counter', component: CounterComponent },
       { path: 'login', component: LoginComponent },
       { path: 'forgot', component: ForgotComponent },
-      { path: 'upload', component: UploadComponent },
+      { path: 'writearticle', component: writearticleComponent },
       { path: 'fileupload', component: FileUploadComponent },
       { path: 'unpublishedtest', component: UnpublishedtestComponent },
       { path: 'register', component: RegisterComponent },

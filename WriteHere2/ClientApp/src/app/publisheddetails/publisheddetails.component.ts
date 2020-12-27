@@ -26,7 +26,7 @@ export class PublishedDetailsComponent {
 
   public getArticle(id) {
 
-    this._http.get<Article>(this._baseUrl + 'api/Article/GetArticle?id=4CA6E115-BD4C-4D9B-AEB8-A590E80719EA').subscribe(result => {
+    this._http.get<Article>(this._baseUrl + 'api/Article/GetArticle?id=' + id).subscribe(result => {
       this.article = result;
     }, error => console.error(error));
   }
@@ -36,7 +36,7 @@ interface Article {
   id: string;
   title: string;
   subtitle: string;
-  Content: string;
+  content: string;
   authorDisplayName: string;
   firstName: string;
   lastName: string;
