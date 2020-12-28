@@ -28,5 +28,16 @@
       <td>{{ a.authorDisplayName }}</td>
       <td>{{ a.firstName }}</td>
     </tr>
+    <tr *ngFor="let u of users">
+      <td>{{ u.username }}</td>
+      <td>Roles
+          <label *ngFor="let r of u.Roles">
+            {{ r.rolename }};
+          </label>
+    </td>
+    </tr>
   </tbody>
+
 </table>
+
+<button (click)="getUserList()">Get User Role List</button>

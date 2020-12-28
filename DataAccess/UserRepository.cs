@@ -18,8 +18,8 @@ namespace DataAccess
             SqlDataReader rdrUser = null;
             SqlDataReader rdrRole = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);
-            SqlCommand cmdUser = new SqlCommand("SELECT * FROM dbo.User WHERE ID ='" + id+"'" , conn);
-            SqlCommand cmdRole = new SqlCommand("SELECT * FROM dbo.UserRole WHERE UserID ='" + id + "'", conn);
+            SqlCommand cmdUser = new SqlCommand("SELECT * FROM dbo.[User] WHERE ID ='" + id+"'" , conn);
+            SqlCommand cmdRole = new SqlCommand("SELECT * FROM dbo.[UserRole] WHERE UserID ='" + id + "'", conn);
             var user = new UserInfo();
             try
             {
@@ -27,14 +27,17 @@ namespace DataAccess
                 rdrUser = cmdUser.ExecuteReader();
                 rdrRole = cmdRole.ExecuteReader();
                 if (rdrUser.Read())
-                {      // get the results of each column
+                {     
                     user.Id = (System.Guid)rdrUser["ID"];
                     user.UserName = (string)rdrUser["UserName"];
-                    var role = new Role();
+                   
                     while (rdrRole.Read())
                     {
+                        var role = new Role();
                         role.Id = (System.Guid)rdrRole["ID"];
                         role.RoleName = (string)rdrRole["RoleName"];
+                        user.Roles.Add(role);
+
                     }
                 }
             }
@@ -49,33 +52,45 @@ namespace DataAccess
 
         public static List<UserInfo> GetUserInfoList()
         {
-            SqlDataReader rdr = null;
+            SqlDataReader rdrUser = null;
+            SqlDataReader rdrRole = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.vwArticleList", conn);
+            SqlCommand cmdUser = new SqlCommand("SELECT * FROM dbo.[User] ", conn);
             var list = new List<UserInfo>();
             try
             {
                 conn.Open();
-                rdr = cmd.ExecuteReader();
-
-                while (rdr.Read())
+                rdrUser = cmdUser.ExecuteReader();
+                while (rdrUser.Read())
                 {
-                    var a = new UserInfo();
-                    // get the results of each column
-                    a.Id = (System.Guid)rdr["ID"];
-                    //a.AuthorDisplayName = (string)rdr["AuthorDisplayName"];
-                    //a.Title = (string)rdr["Title"];
-                    //a.Subtitle = (string)rdr["Subtitle"];
-                    //a.FirstName = (string)rdr["FirstName"];
-                    //a.LastName = (string)rdr["LastName"];
-                    //a.ArticleStatus = (string)rdr["ArticleStatus"];
-                    //a.Content = (string)rdr["Content"];
-                    list.Add(a);
+                    var user = new UserInfo();
+                    user.Id = (System.Guid)rdrUser["ID"];
+                    user.UserName = (string)rdrUser["UserName"];
+                    list.Add(user);
+                }
+                if (rdrUser != null) { rdrUser.Close(); }
+                
+                foreach (var user in list)
+                {
+                    SqlCommand cmdRole = new SqlCommand("SELECT u.Id,r.RoleName FROM dbo.[UserRole] u LEFT OUTER JOIN dbo.[Role] r ON u.RoleId = r.ID WHERE UserID ='" + user.Id + "'", conn);
+                    rdrRole = cmdRole.ExecuteReader();
+
+                  
+                    while (rdrRole.Read())
+                    {
+                        var role = new Role();
+                        role.Id = (System.Guid)rdrRole["ID"];
+                        role.RoleName = (string)rdrRole["RoleName"];
+                        user.Roles.Add(role);
+
+                    }
+                    if (rdrRole != null) { rdrRole.Close(); }
                 }
             }
             finally
             {
-                if (rdr != null) { rdr.Close(); }
+                if (rdrUser != null) { rdrUser.Close(); }
+                if (rdrRole != null) { rdrRole.Close(); }
                 if (conn != null) { conn.Close(); }
             }
             return list;
