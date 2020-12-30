@@ -12,6 +12,7 @@ export class FetchDataComponent {
   public forecasts: WeatherForecast[];
   public articles: Article[];
   public article: Article;
+  public users: UserInfo[];
 
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
@@ -40,8 +41,15 @@ export class FetchDataComponent {
     }, error => console.error(error));
   }
 
+
+  public getUserList() {
+    alert('a');
+    this._http.get<UserInfo[]>(this._baseUrl + 'api/User/GetUserInfoList').subscribe(result => {
+     this.users = result;
+  }, error => console.error(error));
 }
 
+}
 interface WeatherForecast {
   dateFormatted: string;
   temperatureC: number;
@@ -57,4 +65,15 @@ interface Article {
   authorDisplayName: string;
   firstName: string;
   lastName: string;
+}
+
+interface Role {
+  id: string;
+  rolename: string;
+}
+interface UserInfo {
+  id: string;
+  username: string;
+  roles: Role[]
+  
 }
