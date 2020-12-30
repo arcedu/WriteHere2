@@ -9,12 +9,12 @@ using DataAccess;
 namespace WriteHere2.Controllers
 {
     [Route("api/[controller]")]
-    public class ArticleController : Controller
+    public class UserController : Controller
     {
         [HttpGet("[action]")]
-        public IEnumerable<Article> GetArticleList()
+        public IEnumerable<Article> GetUserList()
         {
-            var list = ArticleRepository.GetArticleList();
+            var list = ArticleRepository.GetUserList();
             return list;
         }
 

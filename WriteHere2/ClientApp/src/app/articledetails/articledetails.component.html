@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--<link rel="stylesheet" href="published.component.css">-->
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+</head>
+<body>
+
+
+  <div *ngIf="isEditable">
+    <label for="Title">Title</label><br />
+    <textarea id="Title" name="Title" rows="1" cols="100">{{ article.title }}</textarea><br />
+    <label for="Subtitle">Subtitle</label><br />
+    <textarea id="Subtitle" name="Subtitle" rows="1" cols="100">{{ article.subtitle }}</textarea><br />
+    <label for="Summary">Summary</label><br />
+    <textarea id="Summary" name="Summary" rows="2" cols="100">{{ article.summary }}</textarea><br />
+    <label for="Content">Content</label><br />
+    <textarea id="Content" name="Content" rows="18" cols="100">{{ article.content }}</textarea><br />
+  </div>
+
+  <div *ngIf="!isEditable">
+    <h1>{{ article.title }}</h1>
+    <h3>{{ article.subtitle}}</h3>
+    <p>{{article.authorDisplayName}}</p>
+    <p>{{article.content}}</p>
+  </div>
+
+  <!--<img src="../../../../../../../../Pictures/WriteHereNav.jpg" alt="...">-->
+  <button *ngIf="isEditable" (click)="saveArticle()">Save Changes</button>
+  <button *ngIf="isEditable" (click)="get()">get</button>
+  <button *ngIf="isEditable" (click)="testOther()">test otherfunc</button>
+
+</body>
+</html>

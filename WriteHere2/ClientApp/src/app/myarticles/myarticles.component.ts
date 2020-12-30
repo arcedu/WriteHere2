@@ -28,6 +28,11 @@ export class MyArticlesComponent {
       this.articles = result;
     }, error => console.error(error));
   }
+
+  public composeArticle() {
+    location.replace("/articledetails?isEditable=true")
+
+  }
 }
 interface Article {
   id: string;

@@ -9,6 +9,7 @@ namespace DataAccess
         public Guid Id;
         public string Title;
         public string Subtitle;
+        public string Summary;
         public string Content;
         public string AuthorDisplayName;
         public string FirstName;

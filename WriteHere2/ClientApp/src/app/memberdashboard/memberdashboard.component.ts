@@ -12,8 +12,12 @@ export class MemberdashboardComponent {
   public redirectToPublished() {
     location.replace("/published")
   }
+  public redirectToArticleDetails() {
+    location.replace("/articledetails")
+  }
   public redirectToMyArticles() {
     location.replace("/myarticles")
   }
-  }
+}
+
 
