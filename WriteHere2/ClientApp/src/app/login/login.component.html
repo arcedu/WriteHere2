@@ -6,16 +6,18 @@
 </head>
 <body>
   <h1>
-    Login 
+    Login
   </h1>
   <div>
-
+    <label for="msg" class="msglabel">{{msg}}</label><br>
+    <label for="username" class="msglabel">username{{localStorage.user.userName }}</label><br>
     <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username"><br>
+    <input type="text" id="username" name="username" [(ngModel)]='user.userName'><br>
     <label for="pwd">Password:</label><br>
-    <input type="password" id="pwd" name="pwd">
+    <input type="password" id="pwd" name="pwd" [(ngModel)]='user.password'>
   </div>
-  <button (click)="redirectTo()" class="margin">Login</button>
+  <button (click)="login()" class="margin" style="width:180px">Login</button>
+  
   <br>
   <a href="/register">Don't have an account? Register here</a>
   <br />

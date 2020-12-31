@@ -1,6 +1,4 @@
 ﻿using System;
-
-using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 
@@ -8,6 +6,22 @@ namespace DataAccess
 {
     public static class ArticleRepository
     {
+        public static Article CreateArticle(Article a)
+        {
+         
+            return a;
+        }
+        public static Article UpdateArticle(Article a)
+        {
+
+            return a;
+        }
+        public static void DelteArticle(Guid id)
+        {
+
+            return ;
+        }
+
         public static Article GetArticle(Guid id)
         {
             SqlDataReader rdr = null;

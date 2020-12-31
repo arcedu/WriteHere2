@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+
+import { Component, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-writearticle-component',
@@ -6,8 +8,19 @@ import { Component } from '@angular/core';
  // styleUrls: ['.././site.component.css']
 })
 export class writearticleComponent {
-  public currentCount = 0;
+  private _baseUrl: string;
+  private _http: HttpClient;
+  private article: Article;
 
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    this._baseUrl = baseUrl;
+    this._http = http;
+  }
+
+  public addArticle(a: Article){
+    return this._http.post<Article>(this._baseUrl + 'api/Article/AddArticle', a)
+    ;
+  }
   public redirectTo() {
  
     location.replace("/memberdashboard")
@@ -16,4 +29,16 @@ export class writearticleComponent {
   public redirectToFiles() {
     location.replace("/filewritearticle")
   }
+}
+
+interface Article {
+  id: string;
+  title: string;
+  subtitle: string;
+  summary: string;
+  content: string;
+  articleStatus: string;
+  authorDisplayName: string;
+  firstName: string;
+  lastName: string;
 }

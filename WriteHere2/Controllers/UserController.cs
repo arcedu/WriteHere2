@@ -17,6 +17,7 @@ namespace WriteHere2.Controllers
             var list = UserRepository.GetUserInfoList();
             return list;
         }
+
         [HttpGet("[action]")]
         public UserInfo GetUserInfoById(Guid id)
         {
@@ -24,5 +25,14 @@ namespace WriteHere2.Controllers
             return a;
         }
 
+
+        [HttpGet("[action]")]
+        public UserInfo Login(string username, string password)
+        {
+            ViewData["Login"] = "user1";
+            var user = UserRepository.GetUserInfoByLogin(username, password);
+            
+            return user;
+        }
     }
 }

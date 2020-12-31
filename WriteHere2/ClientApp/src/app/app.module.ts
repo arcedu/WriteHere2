@@ -3,6 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { Injectable } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
+
+
+@Injectable()
+export class ConfigService {
+  constructor(private http: HttpClient) { }
+}
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -22,7 +30,7 @@ import { MyArticlesComponent } from './myarticles/myarticles.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { FileUploadComponent } from './fileupload/fileupload.component';
 import { HallOFameComponent } from './hallofame/hallofame.component';
-import { PublishedDetailsComponent } from './publisheddetails/publisheddetails.component';
+import { ArticleDetailsComponent } from './articledetails/articledetails.component';
 
 @NgModule({
   declarations: [
@@ -43,8 +51,9 @@ import { PublishedDetailsComponent } from './publisheddetails/publisheddetails.c
     MyAccountComponent,
     MyArticlesComponent,
     FileUploadComponent,
-    PublishedDetailsComponent,
-    HallOFameComponent
+    ArticleDetailsComponent,
+    HallOFameComponent,
+   
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -66,12 +75,13 @@ import { PublishedDetailsComponent } from './publisheddetails/publisheddetails.c
       { path: 'memberdashboard', component: MemberdashboardComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'myarticles', component: MyArticlesComponent },
-      { path: 'publisheddetails', component: PublishedDetailsComponent },
+      { path: 'articledetails', component: ArticleDetailsComponent },
       { path: 'hallofame', component: HallOFameComponent }
 
     ])
   ],
-  providers: [],
+  providers: [
+  ], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

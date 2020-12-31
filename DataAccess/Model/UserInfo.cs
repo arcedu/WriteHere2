@@ -7,10 +7,13 @@ namespace DataAccess
     public class UserInfo
     {
         public UserInfo()
-        { Roles = new List<Role>(); }
+        {
+            Roles = new List<Role>();
+        }
+
         public Guid Id;
         public string UserName;
-        
+        public string Password;
 
         public List<Role> Roles;
     }
