@@ -32,11 +32,6 @@ import { FileUploadComponent } from './fileupload/fileupload.component';
 import { HallOFameComponent } from './hallofame/hallofame.component';
 import { ArticleDetailsComponent } from './articledetails/articledetails.component';
 
-//import { PaymentDetailsComponent } from './payment-details/payment-details.component';
-//import { PaymentDetailComponent } from './payment-details/payment-detail/payment-detail.component';
-//import { PaymentDetailListComponent } from './payment-details/payment-detail-list/payment-detail-list.component';
-//import { PaymentDetailService } from './shared/payment-detail.service';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,9 +53,7 @@ import { ArticleDetailsComponent } from './articledetails/articledetails.compone
     FileUploadComponent,
     ArticleDetailsComponent,
     HallOFameComponent,
-    //PaymentDetailsComponent,
-    //PaymentDetailComponent,
-    //PaymentDetailListComponent
+   
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -87,7 +80,8 @@ import { ArticleDetailsComponent } from './articledetails/articledetails.compone
 
     ])
   ],
-  providers:[], // [PaymentDetailService],
+  providers: [
+  ], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

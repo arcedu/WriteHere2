@@ -8,9 +8,48 @@ namespace DataAccess
 {
     public static class UserRepository
     {
-        public static UserInfo GetUserInfoByUserName(string userName)
+        public static UserInfo GetUserInfoByLogin(string username, string password)
         {
-            return null;
+            SqlDataReader rdrUser = null;
+            SqlDataReader rdrRole = null;
+            SqlConnection conn = new SqlConnection(Const.ConnString);
+            SqlCommand cmdUser = new SqlCommand("SELECT * FROM dbo.[User] WHERE UserName = @u AND LoginPassword = @p", conn);
+            cmdUser.Parameters.AddWithValue("@u", username);
+            cmdUser.Parameters.AddWithValue("@p", password);
+
+            UserInfo user = null;
+            try
+            {
+                conn.Open();
+                rdrUser = cmdUser.ExecuteReader();
+                
+                if (rdrUser.Read())
+                {
+                    user = new UserInfo();
+                    user.Id = (System.Guid)rdrUser["ID"];
+                    user.UserName = (string)rdrUser["UserName"];
+                }
+                if (rdrUser != null) { rdrUser.Close(); }
+                if (user != null)
+                {
+                    SqlCommand cmdRole = new SqlCommand("SELECT * FROM dbo.[UserRole] WHERE UserID ='" + user.Id + "'", conn);
+                    rdrRole = cmdRole.ExecuteReader();
+                    while (rdrRole.Read())
+                    {
+                        var role = new Role();
+                        role.Id = (System.Guid)rdrRole["ID"];
+                        role.RoleName = (string)rdrRole["RoleName"];
+                        user.Roles.Add(role);
+                    }
+                }
+            }
+            finally
+            {
+                if (rdrUser != null) { rdrUser.Close(); }
+                if (rdrRole != null) { rdrRole.Close(); }
+                if (conn != null) { conn.Close(); }
+            }
+            return user;
         }
 
         public static UserInfo GetUserInfoById(Guid id)
@@ -27,11 +66,13 @@ namespace DataAccess
                 rdrUser = cmdUser.ExecuteReader();
                 rdrRole = cmdRole.ExecuteReader();
                 if (rdrUser.Read())
-                {     
+                {
                     user.Id = (System.Guid)rdrUser["ID"];
                     user.UserName = (string)rdrUser["UserName"];
-                   
-                    while (rdrRole.Read())
+                }
+                if (rdrUser != null) { rdrUser.Close(); }
+
+                while (rdrRole.Read())
                     {
                         var role = new Role();
                         role.Id = (System.Guid)rdrRole["ID"];
@@ -39,7 +80,7 @@ namespace DataAccess
                         user.Roles.Add(role);
 
                     }
-                }
+                
             }
             finally
             {

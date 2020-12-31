@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-memberdashboard-component',
@@ -6,6 +7,12 @@ import { Component } from '@angular/core';
  // styleUrls: ['.././site.component.css']
 })
 export class MemberdashboardComponent {
+
+
+  constructor() {
+   
+  }
+
   public redirectToMyAccount() {
     location.replace("/myaccount")
   }
@@ -18,6 +25,7 @@ export class MemberdashboardComponent {
   public redirectToMyArticles() {
     location.replace("/myarticles")
   }
+
 }
 
 

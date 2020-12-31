@@ -6,6 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
+  public UserName: string
+
+  constructor() {
+    this.UserName = this.getUsername();
+  }
   isExpanded = false;
 
   collapse() {
@@ -14,5 +19,24 @@ export class NavMenuComponent {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  public logOut() {
+    localStorage.setItem('userid', null);
+    localStorage.setItem('username', null);
+    location.replace("/home");
+  }
+
+  public isLoggedIn() {
+    var userid = localStorage.getItem('userid');
+    return (userid != 'null')
+  }
+
+  public getUsername() {
+    if (this.isLoggedIn()) {
+      return localStorage.getItem('username');
+    } else {
+      return 'guest';
+    }
   }
 }

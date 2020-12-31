@@ -29,6 +29,7 @@ namespace WriteHere2.Controllers
         [HttpGet("[action]")]
         public Article AnyFuncName(Guid id)
         {
+         
             var a = ArticleRepository.GetArticle(id);
             return a;
         }
@@ -38,9 +39,18 @@ namespace WriteHere2.Controllers
         [HttpPost]
         public async Task<IActionResult> PostArticle([FromBody] Article a)
         {
-            ArticleRepository.s
-            if ( a.Id == null) { a.Id = Guid.NewGuid(); }
-            a.Title += " saved";
+
+            if (a.Id == null)
+            {
+                a = ArticleRepository.CreateArticle(a);
+                a.Title += " created";
+            }
+            else
+            {
+                ArticleRepository.UpdateArticle(a);
+                a.Title += " updated";
+            }
+
             return Json(a);
         }
 

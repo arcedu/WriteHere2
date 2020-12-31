@@ -26,15 +26,13 @@ namespace WriteHere2.Controllers
         }
 
 
-        // Dev Note: Do not change the Post function name. Must be exactly as this.
-        [HttpPost]
-        public async Task<IActionResult> PostArticle([FromBody] Article a)
+        [HttpGet("[action]")]
+        public UserInfo Login(string username, string password)
         {
-            ArticleRepository.s
-            if ( a.Id == null) { a.Id = Guid.NewGuid(); }
-            a.Title += " saved";
-            return Json(a);
+            ViewData["Login"] = "user1";
+            var user = UserRepository.GetUserInfoByLogin(username, password);
+            
+            return user;
         }
-
     }
 }
