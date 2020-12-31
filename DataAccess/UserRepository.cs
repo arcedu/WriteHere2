@@ -32,7 +32,7 @@ namespace DataAccess
                 if (rdrUser != null) { rdrUser.Close(); }
                 if (user != null)
                 {
-                    SqlCommand cmdRole = new SqlCommand("SELECT * FROM dbo.[UserRole] WHERE UserID ='" + user.Id + "'", conn);
+                    SqlCommand cmdRole = new SqlCommand("SELECT r.Id, R.RoleName FROM dbo.[UserRole] ur LEFT OUTER JOIN [Role] r ON ur.RoleID = r.ID WHERE UserID ='" + user.Id + "'", conn);
                     rdrRole = cmdRole.ExecuteReader();
                     while (rdrRole.Read())
                     {
