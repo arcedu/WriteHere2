@@ -12,9 +12,9 @@ namespace WriteHere2.Controllers
     public class ArticleController : Controller
     {
         [HttpGet("[action]")]
-        public IEnumerable<Article> GetArticleList()
+        public IEnumerable<Article> GetArticleList(Guid? userId, string statusName)
         {
-            var list = ArticleRepository.GetArticleList();
+            var list = ArticleRepository.GetArticleList(userId, statusName);
             return list;
         }
 
@@ -40,17 +40,8 @@ namespace WriteHere2.Controllers
         public async Task<IActionResult> PostArticle([FromBody] Article a)
         {
 
-            if (a.Id == null)
-            {
-                a = ArticleRepository.CreateArticle(a);
-                a.Title += " created";
-            }
-            else
-            {
-                ArticleRepository.UpdateArticle(a);
-                a.Title += " updated";
-            }
-
+                a=ArticleRepository.SaveArticle(a);
+         
             return Json(a);
         }
 

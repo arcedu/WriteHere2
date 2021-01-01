@@ -8,11 +8,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MemberdashboardComponent {
 
-
-  constructor() {
-   
-  }
-
   public redirectToMyAccount() {
     location.replace("/myaccount")
   }

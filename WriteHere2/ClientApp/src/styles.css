@@ -42,9 +42,15 @@ button {
   font-size: 8px;
   color:darkslateblue
 }
-.msglabel {
-    background-color:cornsilk;
-    font-style:italic, normal;
-    font-size:smaller;
-    color :firebrick
+.msgred {
+  background-color: cornsilk;
+  font-style: italic, normal;
+  font-size: smaller;
+  color: firebrick
+}
+
+.msggreen {
+  font-style: italic, normal;
+  font-size: smaller;
+  color: darkseagreen
 }

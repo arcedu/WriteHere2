@@ -29,7 +29,7 @@ namespace WriteHere2.Controllers
         [HttpGet("[action]")]
         public UserInfo Login(string username, string password)
         {
-            ViewData["Login"] = "user1";
+       
             var user = UserRepository.GetUserInfoByLogin(username, password);
             
             return user;
