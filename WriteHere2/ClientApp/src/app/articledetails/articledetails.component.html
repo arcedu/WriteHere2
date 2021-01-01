@@ -10,6 +10,7 @@
 
 
   <div *ngIf="isEditable">
+    <label for="msg" class="msgred">{{msg}}</label><br>
     <label for="Title">Title</label><br />
     <textarea id="Title" name="Title" rows="1" cols="100">{{ article.title }}</textarea><br />
     <label for="Subtitle">Subtitle</label><br />

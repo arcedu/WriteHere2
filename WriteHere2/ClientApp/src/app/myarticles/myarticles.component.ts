@@ -16,16 +16,17 @@ export class MyArticlesComponent {
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._baseUrl = baseUrl;
     this._http = http;
-    var username = this.getUsername();
-    alert(username);
-    http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList').subscribe(result => {
-      this.articles = result;
-    }, error => console.error(error));
+
+    this.getArticleList();
   }
   public getUsername() { return localStorage.getItem('username'); }
-  public getArticleList() {
+  public getUserId() { return localStorage.getItem('userid'); }
 
-    this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList').subscribe(result => {
+  public getArticleList() {
+    var userid = this.getUserId();
+
+    this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList?userid=' + userid)
+      .subscribe(result => {
       this.articles = result;
     }, error => console.error(error));
   }

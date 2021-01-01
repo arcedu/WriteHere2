@@ -7,10 +7,13 @@ namespace DataAccess
     public class Article
     {
         public Guid Id;
+        public Guid OwnerUserId;
+        public bool AuthorIsPublicProfile;
         public string Title;
         public string Subtitle;
         public string Summary;
         public string Content;
+        public string Abstract;
         public string AuthorDisplayName;
         public string FirstName;
         public string LastName;

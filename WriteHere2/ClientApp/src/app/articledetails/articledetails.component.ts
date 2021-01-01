@@ -12,7 +12,9 @@ export class ArticleDetailsComponent{
   private _http: HttpClient;
   public isEditable: boolean;
   public article: Article;
-   
+  public msg: string;
+
+
   constructor(http: HttpClient,
     @Inject('BASE_URL') baseUrl: string) {
 
@@ -48,17 +50,12 @@ export class ArticleDetailsComponent{
   }
 
   public saveArticle() {
-    alert('saveArticle : ' + this.article.title);
-
-    if (this.article.id == null) {
-      alert('this.article.id == null');
-      this._http.post(this._baseUrl + 'api/Article/' , this.article)
-        .subscribe((res: Article) => this.article = res)
-    } else {
-      alert('NOT null');
+    this.article.ownerUserId = localStorage.getItem('userid');
       this._http.post(this._baseUrl + 'api/Article/', this.article)
-      .subscribe((res: Article) => this.article = res)
-    }
+        .subscribe((res: Article) => {
+          this.article = res;
+          this.msg = 'saved at ' + new Date();
+        })
   };
 
 
@@ -72,10 +69,7 @@ export class ArticleDetailsComponent{
   //public remove() {
   //  return this._http.delete(this._baseUrl +this.url + '/' + this.payload.id, { headers: this.headers });
   //}
-  //public update() {
-  //  alert('update ' + this._baseUrl +this.url);
-  //  return this._http.put(this._baseUrl +this.url + '/' + this.payload.id, this.payload, { headers: this.headers });
-  //}
+ 
 
 }
 
@@ -86,6 +80,8 @@ export class Article {
   summary: string;
   content: string;
   authorDisplayName: string;
+  ownerUserId: string;
+  authorIsPublicProfile: boolean;
   firstName: string;
   lastName: string;
 }
