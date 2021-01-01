@@ -12,7 +12,7 @@ export class LoginComponent {
   private _http: HttpClient;
   public user: UserInfo;
   public msg: string;
-  public showmsg: boolean;
+ 
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._baseUrl = baseUrl;
@@ -23,7 +23,7 @@ export class LoginComponent {
   public getUsername() { return localStorage.getItem('username');}
   public login() {
    
-    this._http.get<UserInfo>(this._baseUrl + 'api/User/Login?username=' + this.user.userName + '&password=' + this.user.password)  // +'&aaa=123b')
+    this._http.get<UserInfo>(this._baseUrl + 'api/User/Login?username=' + this.user.userName + '&password=' + this.user.password) 
       .subscribe(result => {
         this.user = result;
         if (this.user == null) { this.user = new UserInfo(); }
