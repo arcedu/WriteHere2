@@ -19,6 +19,13 @@ namespace WriteHere2.Controllers
         }
 
         [HttpGet("[action]")]
+        public IEnumerable<Assignment> GetAssignmentList(Guid? userId)
+        {
+            var list = ArticleRepository.GetAssignmentList(userId);
+            return list;
+        }
+
+        [HttpGet("[action]")]
         public Article GetArticle(Guid id)
         {
             var a = ArticleRepository.GetArticle(id);

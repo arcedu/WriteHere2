@@ -20,6 +20,9 @@ export class MemberdashboardComponent {
   public redirectToMyArticles() {
     location.replace("/myarticles")
   }
+  public redirectToMyAssignments() {
+    location.replace("/myassignments")
+  }
 
 }
 

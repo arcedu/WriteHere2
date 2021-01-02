@@ -18,5 +18,7 @@ namespace DataAccess
         public string FirstName;
         public string LastName;
         public string ArticleStatus;
+        public int UpVote;
+        public int DownVote;
     }
 }
