@@ -27,6 +27,7 @@ import { PublishedTestComponent } from './published/publishedtest.component';
 import { RegisterComponent } from './register/register.component';
 import { UnpublishedtestComponent } from './published/unpublishedtest.component';
 import { MyArticlesComponent } from './myarticles/myarticles.component';
+import { MyAssignmentsComponent } from './myassignments/myassignments.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { FileUploadComponent } from './fileupload/fileupload.component';
 import { HallOFameComponent } from './hallofame/hallofame.component';
@@ -49,6 +50,7 @@ import { ArticleDetailsComponent } from './articledetails/articledetails.compone
     RegisterComponent,
     UnpublishedtestComponent,
     MyAccountComponent,
+    MyAssignmentsComponent,
     MyArticlesComponent,
     FileUploadComponent,
     ArticleDetailsComponent,
@@ -75,6 +77,7 @@ import { ArticleDetailsComponent } from './articledetails/articledetails.compone
       { path: 'memberdashboard', component: MemberdashboardComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'myarticles', component: MyArticlesComponent },
+      { path: 'myassignments', component: MyAssignmentsComponent },
       { path: 'articledetails', component: ArticleDetailsComponent },
       { path: 'hallofame', component: HallOFameComponent }
 

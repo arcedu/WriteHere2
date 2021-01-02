@@ -20,6 +20,7 @@ export class PublishedComponent {
 
     http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList').subscribe(result => {
       this.articles = result;
+
     }, error => console.error(error));
   }
 
@@ -32,4 +33,6 @@ interface Article {
   authorDisplayName: string;
   firstName: string;
   lastName: string;
+  upVote: number;
+  downVote: number;
 }
