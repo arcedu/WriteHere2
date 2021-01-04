@@ -19,7 +19,7 @@ export class ArticleDetailsComponent{
 
   public getUser() {
     try { return JSON.parse(localStorage.getItem('user')) as User; }
-    finally { return null; }
+    catch { return null; }
   }
 
   constructor(http: HttpClient,

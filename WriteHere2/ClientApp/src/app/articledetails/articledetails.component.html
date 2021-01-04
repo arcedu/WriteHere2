@@ -16,34 +16,32 @@
           <label for="msg" class="msggreen">{{msg}}</label>
         </td>
         <!--Editor's button bar-->
-        <td *ngIf="isEditor" width="25%" align="right">
-          <img class="actionbuttonimage"
+        <td width="25%" align="right">
+          <img *ngIf="isEditor || isWriter"
+               class="actionbuttonimage"
                src="../_images/Save.png"
                alt="Save Changes"
                (click)="saveArticle()">
-          <img class="actionbuttonimage"
-               src="../_images/Reject.png"
-               alt="Reject"
-               (click)="submitArticle()">
-          <img class="actionbuttonimage"
-               src="../_images/Publish.png"
-               alt="Publish"
-               (click)="publishArticle()">
-        </td>
-        <!--Write's button bar-->
-        <td *ngIf="isWriter " width="25%" align="right">
-          <img class="actionbuttonimage"
-               src="../_images/Save.png"
-               alt="Save Changes"
-               (click)="saveArticle()">
-          <img class="actionbuttonimage"
+          <img *ngIf="isEditor || isWriter"
+               class="actionbuttonimage"
                src="../_images/Submit.png"
                alt="Submit"
                (click)="submitArticle()">
-          <img class="actionbuttonimage"
+          <img *ngIf="isWriter"
+               class="actionbuttonimage"
                src="../_images/Delete.png"
                alt="Delete"
                (click)="deleteArticle()">
+
+          <img *ngIf="isEditor"
+               class="actionbuttonimage"
+               src="../_images/Reject.png"
+               alt="Reject"
+               (click)="rejectArticle()">
+          <img *ngIf="isEditor" class="actionbuttonimage"
+               src="../_images/Publish.png"
+               alt="Publish"
+               (click)="publishArticle()">
         </td>
       </tr>
     </table>

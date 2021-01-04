@@ -82,13 +82,32 @@ namespace DataAccess
             return list;
         }
 
-        private static User ReadRow(SqlDataReader rdrUser)
+        private static User ReadRow(SqlDataReader rdr)
         {
             var user = new User();
-           
-                user.Id = (Guid)rdrUser["ID"];
-                user.UserName = (string)rdrUser["UserName"];
-            
+
+            user.Id = (Guid)rdr["ID"];
+            user.UserName = (string)rdr["UserName"];
+            user.FirstName = (rdr["FirstName"] == DBNull.Value) ? string.Empty : rdr["FirstName"].ToString();
+            user.LastName = (rdr["LastName"] == DBNull.Value) ? string.Empty : rdr["LastName"].ToString();
+            var gradeAsOf2021 = (rdr["GradeAsOf2021"] == DBNull.Value) ? 0 : (int)rdr["GradeAsOf2021"];
+            user.Grade = gradeAsOf2021 + DateTime.Today.Year - gradeAsOf2021;
+            user.ShowGrade = (rdr["ShowGrade"] == DBNull.Value) ? false : (bool)rdr["ShowGrade"];
+            user.Country = (rdr["Country"] == DBNull.Value) ? string.Empty : rdr["Country"].ToString();
+            user.ShowCountry = (rdr["ShowCountry"] == DBNull.Value) ? false : (bool)rdr["ShowCountry"];
+            user.State = (rdr["State"] == DBNull.Value) ? string.Empty : rdr["State"].ToString();
+            user.ShowState = (rdr["ShowState"] == DBNull.Value) ? false : (bool)rdr["ShowState"];
+
+            user.ShowProfile = (rdr["ShowProfile"] == DBNull.Value) ? false : (bool)rdr["ShowProfile"];
+            user.ShowInHall = (rdr["ShowInHall"] == DBNull.Value) ? false : (bool)rdr["ShowInHall"];
+            user.IsAdmin = (rdr["IsAdmin"] == DBNull.Value) ? false : (bool)rdr["IsAdmin"];
+            user.IsReader = (rdr["IsReader"] == DBNull.Value) ? false : (bool)rdr["IsReader"];
+            user.IsWriter = (rdr["IsWriter"] == DBNull.Value) ? false : (bool)rdr["IsWriter"];
+            user.IsEditor = (rdr["IsEditor"] == DBNull.Value) ? false : (bool)rdr["IsEditor"];
+            user.IsAuditor = (rdr["IsAuditor"] == DBNull.Value) ? false : (bool)rdr["IsAuditor"];
+            user.IsDrawer = (rdr["IsDrawer"] == DBNull.Value) ? false : (bool)rdr["IsDrawer"];
+            user.IsTutor = (rdr["IsTutor"] == DBNull.Value) ? false : (bool)rdr["IsTutor"];
+
             return user;
         }
     }

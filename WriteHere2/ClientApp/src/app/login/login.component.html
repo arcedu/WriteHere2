@@ -13,10 +13,11 @@
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username" [(ngModel)]='user.userName'><br>
     <label for="pwd">Password:</label><br>
-    <input type="password" id="pwd" name="pwd" [(ngModel)]='user.password'>
+    <input type="password" id="pwd" name="pwd" [(ngModel)]='user.loginPassword'>
   </div>
+  <br>
   <button (click)="login()" class="margin" style="width:180px">Login</button>
-  
+
   <br>
   <a href="/register">Don't have an account? Register here</a>
   <br />

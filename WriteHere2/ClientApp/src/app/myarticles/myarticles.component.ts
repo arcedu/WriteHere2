@@ -23,7 +23,7 @@ export class MyArticlesComponent {
 
   public getUser() {
     try { return JSON.parse(localStorage.getItem('user')) as User; }
-    finally { return null; }
+    catch { return null; }
   }
 
   public getArticleList() {

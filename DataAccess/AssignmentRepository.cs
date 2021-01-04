@@ -48,7 +48,7 @@ namespace DataAccess
             return a;
         }
 
-        public static List<Assignment> GetAssignmentListByEditorUser(Guid? userId)
+        public static List<Assignment> GetAssignmentListByEditorUserId(Guid? userId)
         {
             var sql = "SELECT * FROM dbo.vwAssignmentList";
             if (userId.HasValue)

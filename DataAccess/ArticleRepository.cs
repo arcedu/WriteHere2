@@ -109,52 +109,6 @@ namespace DataAccess
             return list;
         }
 
-        public static List<Assignment> GetAssignmentList(Guid? userId)
-        {
-            var sql = "SELECT * FROM dbo.vwAssignmentList";
-            if (userId.HasValue)
-            {
-                sql += " WHERE ";
-                if (userId.HasValue) { sql += " EditorUserId = @u"; }
-
-            }
-
-            SqlDataReader rdr = null;
-            SqlConnection conn = new SqlConnection(Const.ConnString);
-            SqlCommand cmd = new SqlCommand(sql, conn);
-            if (userId.HasValue) { cmd.Parameters.AddWithValue("@u", userId); }
-
-            var list = new List<Assignment>();
-            try
-            {
-                conn.Open();
-                rdr = cmd.ExecuteReader();
-
-                while (rdr.Read())
-                {
-                    var a = new Assignment();
-                    // get the results of each column
-                    a.Id = (Guid)rdr["ID"];
-                    a.AuthorDisplayName = (rdr["AuthorDisplayName"] == DBNull.Value) ? string.Empty : rdr["AuthorDisplayName"].ToString();
-                    a.Title = (string)rdr["Title"];
-                    a.Subtitle = (rdr["Subtitle"] == DBNull.Value) ? string.Empty : rdr["Subtitle"].ToString();
-                    a.ArticleStatus = (string)rdr["ArticleStatus"];
-                    a.AssignedDate = (DateTime)rdr["AssignedDate"];
-                    a.AuthorUserId = (Guid)rdr["AuthorUserId"];
-                    a.EditorUserId = (Guid)rdr["EditorUserId"];
-
-                    list.Add(a);
-                }
-            }
-            finally
-            {
-                if (rdr != null) { rdr.Close(); }
-                if (conn != null) { conn.Close(); }
-            }
-            return list;
-        }
-
-
         private static Article ReadRow(SqlDataReader rdr)
         {
             var a = new Article();
@@ -165,10 +119,10 @@ namespace DataAccess
             a.AuthorIsPublicProfile = (bool)rdr["AuthorIsPublicProfile"];
             a.Title = (string)rdr["Title"];
             a.Subtitle = (rdr["Subtitle"] == DBNull.Value) ? string.Empty : rdr["Subtitle"].ToString();
-            a.FirstName = (rdr["FirstName"] == DBNull.Value) ? string.Empty : rdr["FirstName"].ToString(); ;
-            a.LastName = (rdr["LastName"] == DBNull.Value) ? string.Empty : rdr["LastName"].ToString(); ;
-            a.Content = (rdr["Content"] == DBNull.Value) ? string.Empty : rdr["Content"].ToString(); ;
-            a.Abstract = (rdr["Abstract"] == DBNull.Value) ? string.Empty : rdr["Abstract"].ToString(); ;
+            a.FirstName = (rdr["FirstName"] == DBNull.Value) ? string.Empty : rdr["FirstName"].ToString(); 
+            a.LastName = (rdr["LastName"] == DBNull.Value) ? string.Empty : rdr["LastName"].ToString(); 
+            a.Content = (rdr["Content"] == DBNull.Value) ? string.Empty : rdr["Content"].ToString(); 
+            a.Abstract = (rdr["Abstract"] == DBNull.Value) ? string.Empty : rdr["Abstract"].ToString(); 
             a.ArticleStatus = (rdr["ArticleStatus"] == DBNull.Value) ? string.Empty : rdr["ArticleStatus"].ToString();
             a.UpVote = (rdr["ArticleThumbUpCount"] == DBNull.Value) ? 0 : (int)rdr["ArticleThumbUpCount"];
             a.DownVote = (rdr["ArticleThumbDownCount"] == DBNull.Value) ? 0 : (int)rdr["ArticleThumbDownCount"];
