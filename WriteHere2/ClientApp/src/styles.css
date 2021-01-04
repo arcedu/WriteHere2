@@ -54,3 +54,12 @@ button {
   font-size: smaller;
   color: darkseagreen
 }
+
+.actionbuttonimage {
+  width: 30px;
+  height: 30px;
+}
+.smallimage {
+  width: 20px;
+  height: 20px;
+}

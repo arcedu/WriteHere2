@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User, Article } from '../types';
 
 @Component({
   selector: 'app-fetch-data',
@@ -12,7 +13,7 @@ export class FetchDataComponent {
   public forecasts: WeatherForecast[];
   public articles: Article[];
   public article: Article;
-  public users: UserInfo[];
+  public users: User[];
 
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
@@ -24,8 +25,6 @@ export class FetchDataComponent {
     }, error => console.error(error));
 
   }
-
-
 
   public getArticle() {
 
@@ -44,7 +43,7 @@ export class FetchDataComponent {
 
   public getUserList() {
     alert('a');
-    this._http.get<UserInfo[]>(this._baseUrl + 'api/User/GetUserInfoList').subscribe(result => {
+    this._http.get<User[]>(this._baseUrl + 'api/User/GetUserList').subscribe(result => {
      this.users = result;
   }, error => console.error(error));
 }
@@ -56,24 +55,5 @@ interface WeatherForecast {
   temperatureF: number;
   summary: string;
 }
-interface Article {
-  id: string;
-  title: string;
-  subtitle: string;
-  content: string;
-  articleStatus: string;
-  authorDisplayName: string;
-  firstName: string;
-  lastName: string;
-}
 
-interface Role {
-  id: string;
-  rolename: string;
-}
-interface UserInfo {
-  id: string;
-  username: string;
-  roles: Role[]
-  
-}
+

@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../types';
 
 @Component({
   selector: 'app-myassignments-component',
@@ -19,18 +20,21 @@ export class MyAssignmentsComponent {
 
     this.getAssignmentList();
   }
-  public getUsername() { return localStorage.getItem('username'); }
-  public getUserId() { return localStorage.getItem('userid'); }
 
-  public getAssignmentList() {
-    var userid = this.getUserId();
-
-    this._http.get<Assignment[]>(this._baseUrl + 'api/Article/GetAssignmentList?userid=' + userid)
-      .subscribe(result => {
-      this.assignments = result;
-    }, error => console.error(error));
+  public getUser() {
+    try { return JSON.parse(localStorage.getItem('user')) as User; }
+    finally { return null; }
   }
 
+  public getAssignmentList() {
+    var user = this.getUser();
+    if (user != null) {
+      this._http.get<Assignment[]>(this._baseUrl + 'api/Article/GetAssignmentList?userid=' + user.id)
+        .subscribe(result => {
+          this.assignments = result;
+        }, error => console.error(error));
+    }
+  }
 }
 
 interface Assignment {
@@ -39,7 +43,7 @@ interface Assignment {
   subtitle: string;
   articleStatus: string;
   authorDisplayName: string;
-  assignmentDate: Date;
+  assignedDate: Date;
   authorUserId: string;
   editorUserId: string;
 }

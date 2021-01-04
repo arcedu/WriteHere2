@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User, Article } from '../types';
 
 @Component({
   selector: 'app-myarticles-component',
@@ -19,16 +20,20 @@ export class MyArticlesComponent {
 
     this.getArticleList();
   }
-  public getUsername() { return localStorage.getItem('username'); }
-  public getUserId() { return localStorage.getItem('userid'); }
+
+  public getUser() {
+    try { return JSON.parse(localStorage.getItem('user')) as User; }
+    finally { return null; }
+  }
 
   public getArticleList() {
-    var userid = this.getUserId();
-
-    this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList?userid=' + userid)
-      .subscribe(result => {
-      this.articles = result;
-    }, error => console.error(error));
+    var user = this.getUser();
+    if (user != null) {
+       this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList?authorUserid=' + user.id)
+        .subscribe(result => {
+          this.articles = result;
+        }, error => console.error(error));
+    }
   }
 
   public composeArticle() {
@@ -36,14 +41,3 @@ export class MyArticlesComponent {
 
   }
 }
-
-interface Article {
-  id: string;
-  title: string;
-  subtitle: string;
-  articleStatus: string;
-  authorDisplayName: string;
-  firstName: string;
-  lastName: string;
-}
-

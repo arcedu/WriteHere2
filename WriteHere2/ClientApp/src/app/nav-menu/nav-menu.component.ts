@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { User } from '../types';
 
 @Component({
   selector: 'app-nav-menu',
@@ -22,21 +23,26 @@ export class NavMenuComponent {
   }
 
   public logOut() {
-    localStorage.setItem('userid', null);
-    localStorage.setItem('username', null);
+    localStorage.clear();
     location.replace("/home");
   }
 
+  public getUser() {
+    try {return JSON.parse(localStorage.getItem('user')) as User;    }
+    finally { return null;}
+  }
+
   public isLoggedIn() {
-    var userid = localStorage.getItem('userid');
-    return (userid != 'null')
+    return this.getUser() != null;
   }
 
   public getUsername() {
-    if (this.isLoggedIn()) {
-      return localStorage.getItem('username');
-    } else {
-      return 'guest';
-    }
+    var user = this.getUser();
+    if (user == null) { return 'guest'; }
+    else {
+      return user.userName;
+    } 
+     
+
   }
 }

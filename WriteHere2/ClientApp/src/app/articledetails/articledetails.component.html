@@ -10,15 +10,77 @@
 
 
   <div *ngIf="isEditable">
-    <label for="msg" class="msgred">{{msg}}</label><br>
-    <label for="Title">Title</label><br />
-    <textarea id="Title" name="Title" rows="1" cols="100">{{ article.title }}</textarea><br />
-    <label for="Subtitle">Subtitle</label><br />
-    <textarea id="Subtitle" name="Subtitle" rows="1" cols="100">{{ article.subtitle }}</textarea><br />
-    <label for="Summary">Summary</label><br />
-    <textarea id="Summary" name="Summary" rows="2" cols="100">{{ article.summary }}</textarea><br />
-    <label for="Content">Content</label><br />
-    <textarea id="Content" name="Content" rows="18" cols="100">{{ article.content }}</textarea><br />
+    <table width="90%">
+      <tr>
+        <td width="70%">
+          <label for="msg" class="msggreen">{{msg}}</label>
+        </td>
+        <!--Editor's button bar-->
+        <td *ngIf="isEditor" width="25%" align="right">
+          <img class="actionbuttonimage"
+               src="../_images/Save.png"
+               alt="Save Changes"
+               (click)="saveArticle()">
+          <img class="actionbuttonimage"
+               src="../_images/Reject.png"
+               alt="Reject"
+               (click)="submitArticle()">
+          <img class="actionbuttonimage"
+               src="../_images/Publish.png"
+               alt="Publish"
+               (click)="publishArticle()">
+        </td>
+        <!--Write's button bar-->
+        <td *ngIf="isWriter " width="25%" align="right">
+          <img class="actionbuttonimage"
+               src="../_images/Save.png"
+               alt="Save Changes"
+               (click)="saveArticle()">
+          <img class="actionbuttonimage"
+               src="../_images/Submit.png"
+               alt="Submit"
+               (click)="submitArticle()">
+          <img class="actionbuttonimage"
+               src="../_images/Delete.png"
+               alt="Delete"
+               (click)="deleteArticle()">
+        </td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td>
+          <label for="Title">Title</label><br />
+          <textarea id="Title" name="Title" rows="1" cols="50" style=" margin-right: 10px;">{{ article.title }}</textarea>
+        </td>
+
+      </tr>
+      <tr>
+        <td>
+          <label for="Subtitle">Subtitle</label><br />
+          <textarea id="Subtitle" name="Subtitle" rows="1" cols="50" style=" margin-right: 10px;">{{ article.subtitle }}</textarea>
+        </td>
+        <td>
+          <label for="AuthorDisplayName">Pen name</label><br />
+          <textarea id="AuthorDisplayName" name="AuthorDisplayName" rows="1" cols="20">{{ article.authorDisplayName }}</textarea>
+        </td>
+      </tr>
+
+    </table>
+
+    <label for="Summary">Summary</label>
+    <br />
+    <textarea id="Summary" name="Summary" rows="2" cols="100">{{ article.summary }}</textarea>
+    <br />
+    <label for="Content">Content</label>
+    <br />
+    <textarea id="Content" name="Content" rows="18" cols="100">{{ article.content }}</textarea>
+    <br />
+    <div *ngIf="!isEditor">
+      <textarea id="EditorReviewNote" name="EditorReviewNote" rows="2" cols="100">{{ article.editorReviewNote }}</textarea>
+    <br />
+    </div>
   </div>
 
   <div *ngIf="!isEditable">
@@ -29,7 +91,7 @@
   </div>
 
   <!--<img src="../../../../../../../../Pictures/WriteHereNav.jpg" alt="...">-->
-  <button *ngIf="isEditable" (click)="saveArticle()">Save Changes</button>
+
   <button *ngIf="isEditable" (click)="get()">get</button>
   <button *ngIf="isEditable" (click)="testOther()">test otherfunc</button>
 

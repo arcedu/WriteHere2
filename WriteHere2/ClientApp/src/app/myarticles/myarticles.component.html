@@ -6,19 +6,6 @@
 </head>
 <body>
   <h1>My Articles</h1>
-  <!--<h3>Liked articles</h3>
-  <a href="/publishedtest/">QQQQQ1</a>
-  <h3>My articles</h3>
-  <a href="/publishedtest">Adam and Bob Chapter 1</a>
-  <h3>My published articles</h3>
-  <a href="/publishedtest">Adam and Bob Chapter 1</a>
-  <h3>My unpublished articles</h3>
-  <a href="/unpublishedtest">Adam and Bob Chapter 2</a>
-  <h3>My rejected articles</h3>
-  <p>Hooray! No rejected articles.</p>
-  <h3>Write a new article!</h3>
-  <a href="/writearticle">New Article</a>-->
-
 
   <button (click)="getArticleList()">Reload My Articles List</button>
   <button (click)="composeArticle()">Compose</button>
@@ -26,18 +13,24 @@
   <table style="width:90%">
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Subtitle</th>
-        <!--<th>Author</th>-->
-        <th>Status</th>
+        <th width="30%">Title</th>
+        <th width="30%">Subtitle</th>
+        <th width="20%">Pen Name</th>
+        <th width="10%">Status</th>
+        <th><img src="../_images/VoteUp.png" alt="UpVotes" class="smallimage"></th>
+        <th><img src="../_images/VoteDown.png" alt="DownVotes" class="smallimage"></th>
+        <th><img src="../_images/Comment.png" alt="Comments" class="smallimage"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let a of articles">
         <td><a href="/articledetails?id={{ a.id }}&isEditable=true">{{ a.title }}</a></td>
         <td>{{ a.subtitle }}</td>
-        <!--<td>{{a.authorDisplayName }}</td>-->
+        <td>{{a.authorDisplayName }}</td>
         <td>{{a.articleStatus}}</td>
+        <td>{{a.upVote}}</td>
+        <td>{{a.downVote}}</td>
+        <td>{{a.commentCount}}</td>
       </tr>
     </tbody>
   </table>

@@ -12,16 +12,9 @@ namespace WriteHere2.Controllers
     public class ArticleController : Controller
     {
         [HttpGet("[action]")]
-        public IEnumerable<Article> GetArticleList(Guid? userId, string statusName)
+        public IEnumerable<Article> GetArticleList(Guid? authorUserId,Guid? editorUserId, string statusName)
         {
-            var list = ArticleRepository.GetArticleList(userId, statusName);
-            return list;
-        }
-
-        [HttpGet("[action]")]
-        public IEnumerable<Assignment> GetAssignmentList(Guid? userId)
-        {
-            var list = ArticleRepository.GetAssignmentList(userId);
+            var list = ArticleRepository.GetArticleList(authorUserId, editorUserId, statusName);
             return list;
         }
 

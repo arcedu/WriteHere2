@@ -14,11 +14,18 @@ namespace DataAccess
         public string Summary;
         public string Content;
         public string Abstract;
+        public string EditorReviewNote;
+
         public string AuthorDisplayName;
         public string FirstName;
         public string LastName;
         public string ArticleStatus;
+
         public int UpVote;
         public int DownVote;
+        public int CommentCount;
+        public Guid? EditorUserId;
+        public string EditorUserName;
+        public DateTime? AssignedDate;
     }
 }

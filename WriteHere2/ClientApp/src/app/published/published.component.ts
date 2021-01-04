@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Article } from '../types';
 
 @Component({
   selector: 'app-published-component',
@@ -17,22 +18,10 @@ export class PublishedComponent {
     this._http = http;
     this.isLiked = true;
 
-
     http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList').subscribe(result => {
       this.articles = result;
 
     }, error => console.error(error));
   }
 
-}
-interface Article {
-  id: string;
-  title: string;
-  subtitle: string;
-
-  authorDisplayName: string;
-  firstName: string;
-  lastName: string;
-  upVote: number;
-  downVote: number;
 }
