@@ -29,7 +29,7 @@ export class MyAssignmentsComponent {
   public getAssignmentList() {
     var user = this.getUser();
     if (user != null) {
-      this._http.get<Assignment[]>(this._baseUrl + 'api/Article/GetAssignmentList?userid=' + user.id)
+      this._http.get<Assignment[]>(this._baseUrl + 'api/Assignment/GetAssignmentList?userid=' + user.id)
         .subscribe(result => {
           this.assignments = result;
         }, error => console.error(error));

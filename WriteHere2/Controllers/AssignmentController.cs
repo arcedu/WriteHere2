@@ -22,7 +22,7 @@ namespace WriteHere2.Controllers
         [HttpGet("[action]")]
         public Assignment GetAssignment(Guid id)
         {
-            var a = new Assignment();
+            var a = AssignmentRepository.GetAssignment(id);
             return a;
         }
 

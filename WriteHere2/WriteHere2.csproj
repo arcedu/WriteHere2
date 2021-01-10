@@ -37,7 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\_images\AcceptAssignment.png" />
     <Content Remove="wwwroot\_images\Comment.png" />
+    <Content Remove="wwwroot\_images\RejectAssignment.png" />
     <Content Remove="wwwroot\_images\VoteDown.png" />
     <Content Remove="wwwroot\_images\VoteUp.png" />
   </ItemGroup>
@@ -52,12 +54,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\_images\" />
     <Folder Include="ClientApp\src\app\_shared\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\_images\AcceptAssignment.png" />
     <None Include="wwwroot\_images\Comment.png" />
+    <None Include="wwwroot\_images\RejectAssignment.png" />
     <None Include="wwwroot\_images\VoteDown.png" />
     <None Include="wwwroot\_images\VoteUp.png" />
   </ItemGroup>

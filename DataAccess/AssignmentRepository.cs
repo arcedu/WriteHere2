@@ -92,11 +92,16 @@ namespace DataAccess
             a.AuthorDisplayName = (rdr["AuthorDisplayName"] == DBNull.Value) ? string.Empty : rdr["AuthorDisplayName"].ToString();
             a.Title = (string)rdr["Title"];
             a.Subtitle = (rdr["Subtitle"] == DBNull.Value) ? string.Empty : rdr["Subtitle"].ToString();
-            a.ArticleStatus = (string)rdr["ArticleStatus"];
+            a.ArticleStatus = (rdr["ArticleStatus"] == DBNull.Value) ? string.Empty : rdr["ArticleStatus"].ToString();
             a.AssignedDate = (DateTime)rdr["AssignedDate"];
             a.AuthorUserId = (Guid)rdr["AuthorUserId"];
             a.EditorUserId = (Guid)rdr["EditorUserId"];
-            a.EditorUserName = (rdr["EditorUserName"] == DBNull.Value) ? string.Empty : rdr["EditorUserName"].ToString(); 
+            a.EditorUserName = (rdr["EditorUserName"] == DBNull.Value) ? string.Empty : rdr["EditorUserName"].ToString();
+            a.Content = (rdr["Content"] == DBNull.Value) ? string.Empty : rdr["Content"].ToString();
+            a.Summary = (rdr["Abstract"] == DBNull.Value) ? string.Empty : rdr["Abstract"].ToString();
+            a.EditorReasonNote = (rdr["EditorReasonNote"] == DBNull.Value) ? string.Empty : rdr["EditorReasonNote"].ToString();
+            a.AcceptDecline =(short) rdr["AcceptDecline"];
+      
             return a;
         }
     }

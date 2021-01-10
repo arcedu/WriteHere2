@@ -16,5 +16,9 @@ namespace DataAccess
         public Guid AuthorUserId;
         public Guid EditorUserId;
         public string EditorUserName;
+        public string Content;
+        public string Summary;
+        public string EditorReasonNote;
+        public short AcceptDecline;
     }
 }
