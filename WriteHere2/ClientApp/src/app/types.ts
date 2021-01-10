@@ -83,6 +83,10 @@ export class Assignment {
   authorUserName: string;
   editorUserId: string;
   editorUserName: string;
+  acceptDecline: number;
+  genre: string;
+  summary: string;
+  editorReasonNote: string; 
 }
 
 

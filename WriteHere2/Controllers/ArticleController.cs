@@ -15,6 +15,8 @@ namespace WriteHere2.Controllers
         [HttpGet("[action]")]
         public IEnumerable<Article> GetArticleList( string querystring)
         {
+
+
             var articleQuery = new ArticleQuery();
             if (!string.IsNullOrEmpty(querystring))
             {
