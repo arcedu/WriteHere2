@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--<link rel="stylesheet" href="published.component.css">-->
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+</head>
+<body>
+  <table width="90%">
+    <tr>
+      <td width="70%">
+        <label for="msg" class="msggreen">{{msg}}</label>
+      </td>
+      <!--Editor's button bar-->
+      <td width="25%" align="right">
+        <img class="actionbuttonimage"
+             src="../_images/RejectAssignment.png"
+             alt="Reject"
+             (click)="RejectAssignment()">
+        <img class="actionbuttonimage"
+             src="../_images/AcceptAssignment.png"
+             alt="Accept"
+             (click)="AcceptAssignment()">
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr>
+      <td>
+        <label for="Title">Title</label><br />
+        <textarea id="Title" name="Title" rows="1" cols="50" style=" margin-right: 10px;" [(ngModel)]='assignment.title'></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="Subtitle">Subtitle</label><br />
+        <textarea id="Subtitle" name="Subtitle" rows="1" cols="50" style=" margin-right: 10px;" [(ngModel)]='assignment.subtitle'></textarea>
+      </td>
+      <td>
+        <label for="AuthorDisplayName">Pen name</label><br />
+        <textarea id="AuthorDisplayName" name="AuthorDisplayName" rows="1" cols="20" [(ngModel)]='assignment.authorDisplayName'></textarea>
+      </td>
+    <tr>
+      <td>
+        <label for="Genre">Pen name</label><br />
+        <textarea id="Genre" name="Genre" rows="1" cols="20" [(ngModel)]='assignment.genre'></textarea>
+      </td>
+    </tr>
+  </table>
+
+  <label for="Summary">Summary</label>
+  <br />
+  <label id="Summary" name="Summary" rows="2" cols="100">{{assignment.summary}}</label>
+  <br />
+  <label for="Content">Content</label>
+  <br />
+  <label id="Content" name="Content" rows="2" cols="100">{{assignment.content}}</label>
+  <br />
+  <label for="Content">Editor Review Notes</label>
+  <br />
+  <textarea id="EditorReasonNote" name="EditorReviewNote" rows="2" cols="100" [(ngModel)]='assignment.editorReviewNote'></textarea>
+  <br />
+
+</body>
+</html>

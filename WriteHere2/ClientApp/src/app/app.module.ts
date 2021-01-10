@@ -32,6 +32,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { FileUploadComponent } from './fileupload/fileupload.component';
 import { HallOFameComponent } from './hallofame/hallofame.component';
 import { ArticleDetailsComponent } from './articledetails/articledetails.component';
+import { AssignmentDetailsComponent } from './assignmentdetails/assignmentdetails.component';
 import { UserListComponent } from './userlist/userlist.component';
 import { UserDetailsComponent } from './userdetails/userdetails.component';
 
@@ -58,6 +59,7 @@ import { UserDetailsComponent } from './userdetails/userdetails.component';
     MyArticlesComponent,
     FileUploadComponent,
     ArticleDetailsComponent,
+    AssignmentDetailsComponent,
     HallOFameComponent,
     UserListComponent,
     UserDetailsComponent,
@@ -86,7 +88,8 @@ import { UserDetailsComponent } from './userdetails/userdetails.component';
       { path: 'myarticles', component: MyArticlesComponent },
       { path: 'myassignments', component: MyAssignmentsComponent },
       { path: 'articledetails', component: ArticleDetailsComponent },
-      { path: 'hallofame', component: HallOFameComponent },
+      { path: 'assignmentdetails', component: AssignmentDetailsComponent },
+      { path: 'hallofame', component: HallOFameComponent }
       { path: 'userlist', component: UserListComponent },
       { path: 'userdetails', component: UserDetailsComponent }
 
