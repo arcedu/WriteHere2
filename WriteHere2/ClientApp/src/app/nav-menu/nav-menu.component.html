@@ -29,7 +29,7 @@
                 <span class='glyphicon glyphicon-home'></span> Home
               </a>
             </li>
-        
+
             <li *ngIf="isLoggedIn()" [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/memberdashboard"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-education'></span> My Dashboard
@@ -53,6 +53,11 @@
             <li [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-th-list'></span> Fetch data
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/userlist"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-education'></span> User List
               </a>
             </li>
           </ul>

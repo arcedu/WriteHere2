@@ -32,6 +32,10 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { FileUploadComponent } from './fileupload/fileupload.component';
 import { HallOFameComponent } from './hallofame/hallofame.component';
 import { ArticleDetailsComponent } from './articledetails/articledetails.component';
+import { UserListComponent } from './userlist/userlist.component';
+import { UserDetailsComponent } from './userdetails/userdetails.component';
+
+
 
 @NgModule({
   declarations: [
@@ -55,6 +59,9 @@ import { ArticleDetailsComponent } from './articledetails/articledetails.compone
     FileUploadComponent,
     ArticleDetailsComponent,
     HallOFameComponent,
+    UserListComponent,
+    UserDetailsComponent,
+
    
   ],
   imports: [
@@ -79,7 +86,10 @@ import { ArticleDetailsComponent } from './articledetails/articledetails.compone
       { path: 'myarticles', component: MyArticlesComponent },
       { path: 'myassignments', component: MyAssignmentsComponent },
       { path: 'articledetails', component: ArticleDetailsComponent },
-      { path: 'hallofame', component: HallOFameComponent }
+      { path: 'hallofame', component: HallOFameComponent },
+      { path: 'userlist', component: UserListComponent },
+      { path: 'userdetails', component: UserDetailsComponent }
+
 
     ])
   ],

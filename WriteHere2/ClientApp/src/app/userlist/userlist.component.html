@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+  <h1>User List</h1>
+
+  <!--<button (click)="getArticleListByQuery()">Reload My Articles List</button>-->
+  <!--<button (click)="composeArticle()">Compose</button>-->
+
+  <table style="width:90%">
+    <thead>
+      <tr>
+        <th width="10%">userName</th>
+        <th width="10%">id</th>
+        <th width="10%">firstName</th>
+        <th width="10%">lastName</th>
+        <th width="10%">grade</th>
+        <th width="10%">country</th>
+      </tr>
+    </thead>
+    <tbody> 
+      <tr *ngFor="let user of userlist">
+        <td><a href="userdetails.component">{{ user.userName }}</a></td>
+        <td>{{ user.id }}</td>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.grade}}</td>
+        <td>{{user.country}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <!--<h3>Write a new article!</h3>
+  <a href="/writearticle">New Article</a>-->
+</body>
+</html>

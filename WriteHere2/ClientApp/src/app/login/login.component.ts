@@ -28,7 +28,7 @@ export class LoginComponent {
   }
   
   public login() {
-    alert('login');
+
 
     this._http.get<User>(this._baseUrl + 'api/User/Login?username=' + this.user.userName
       + '&password=' + this.user.loginPassword) 
@@ -37,13 +37,13 @@ export class LoginComponent {
        
         if (loggedUser == null) {
           this.user = new User();
+          this.msg = 'Login Failed. Please check your username and password';
         }
         else {
           if (loggedUser.id != null) {
             localStorage.setItem('user', JSON.stringify(loggedUser));
             location.replace("/memberdashboard");
-          } else {
-            this.msg = 'Login Failed. Please check your username and password';
+          
           }
         }
       }, error => console.error(error));
