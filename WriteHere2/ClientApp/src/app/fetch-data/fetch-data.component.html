@@ -3,7 +3,8 @@
 <p>This component demonstrates fetching data from the server.</p>
 
 <p *ngIf="!forecasts"><em>Loading...</em></p>
-<button (click)="getArticleList()">Get Article List</button>
+
+<button (click)="getArticleListByQuery()">Get Article by Query</button>
 <button (click)="getArticle()">Get Article </button>
 
 <table class='table' *ngIf="forecasts">

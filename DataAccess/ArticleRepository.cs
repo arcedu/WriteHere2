@@ -22,9 +22,10 @@ namespace DataAccess
             cmd.Parameters.AddWithValue("@title", a.Title);
             cmd.Parameters.AddWithValue("@subtitle", a.Subtitle);
             cmd.Parameters.AddWithValue("@content", a.Content);
-            cmd.Parameters.AddWithValue("@abstract", a.Abstract);
+            cmd.Parameters.AddWithValue("@abstract", a.Summary );
             cmd.Parameters.AddWithValue("@ownerUserID", a.OwnerUserId);
             cmd.Parameters.AddWithValue("@authorDisplayName", a.AuthorDisplayName);
+            cmd.Parameters.AddWithValue("@editorReviewNote", a.EditorReviewNote);
 
             try
             {
@@ -71,24 +72,30 @@ namespace DataAccess
             return a;
         }
 
-        public static List<Article> GetArticleList(Guid? authorUserId, Guid? editorUserId, string statusName)
+        public static List<Article> GetArticleList(ArticleQuery articleQuery)
         {
             var sql = "SELECT * FROM dbo.vwArticleList";
-            if (authorUserId.HasValue || editorUserId.HasValue || !string.IsNullOrEmpty(statusName))
+            if (articleQuery.OwnerUserId.HasValue 
+                || articleQuery.EditorUserId.HasValue 
+                || !string.IsNullOrEmpty(articleQuery.StatusName)
+                || !string.IsNullOrEmpty(articleQuery.Genre)
+                )
             {
                 sql += " WHERE ";
-                if (authorUserId.HasValue) { sql += " AuthorUserId = @au"; }
-                if (editorUserId.HasValue) { sql += " EditorUserId = @eu"; }
-                if (!string.IsNullOrEmpty(statusName)) { sql += " StatusName = @s"; }
+                if (articleQuery.OwnerUserId.HasValue) { sql += " AuthorUserId = @au"; }
+                if (articleQuery.EditorUserId.HasValue) { sql += " EditorUserId = @eu"; }
+                if (!string.IsNullOrEmpty(articleQuery.StatusName)) { sql += " ArticleStatus = @s"; }
+                if (!string.IsNullOrEmpty(articleQuery.Genre)) { sql += " Genre = @g"; }
             }
-
+            sql += " ORDER BY Title ";
             SqlDataReader rdr = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);
             SqlCommand cmd = new SqlCommand(sql, conn);
-            if (authorUserId.HasValue) { cmd.Parameters.AddWithValue("@au", authorUserId); }
-            if (editorUserId.HasValue) { cmd.Parameters.AddWithValue("@eu", editorUserId); }
-            if (!string.IsNullOrEmpty(statusName)) { cmd.Parameters.AddWithValue("@s", statusName); }
-
+            if (articleQuery.OwnerUserId.HasValue) { cmd.Parameters.AddWithValue("@au", articleQuery.OwnerUserId.Value); }
+            if (articleQuery.EditorUserId.HasValue) { cmd.Parameters.AddWithValue("@eu", articleQuery.EditorUserId.Value); }
+            if (!string.IsNullOrEmpty(articleQuery.StatusName)) { cmd.Parameters.AddWithValue("@s", articleQuery.StatusName); }
+            if (!string.IsNullOrEmpty(articleQuery.Genre)) { cmd.Parameters.AddWithValue("@g", articleQuery.Genre); }
+            
             var list = new List<Article>();
             try
             {
@@ -122,16 +129,19 @@ namespace DataAccess
             a.FirstName = (rdr["FirstName"] == DBNull.Value) ? string.Empty : rdr["FirstName"].ToString(); 
             a.LastName = (rdr["LastName"] == DBNull.Value) ? string.Empty : rdr["LastName"].ToString(); 
             a.Content = (rdr["Content"] == DBNull.Value) ? string.Empty : rdr["Content"].ToString(); 
-            a.Abstract = (rdr["Abstract"] == DBNull.Value) ? string.Empty : rdr["Abstract"].ToString(); 
+            a.Summary = (rdr["Abstract"] == DBNull.Value) ? string.Empty : rdr["Abstract"].ToString(); 
             a.ArticleStatus = (rdr["ArticleStatus"] == DBNull.Value) ? string.Empty : rdr["ArticleStatus"].ToString();
+            
+            a.ViewedCount = (rdr["ViewedCount"] == DBNull.Value) ? 0 : (int)rdr["ViewedCount"];
             a.UpVote = (rdr["ArticleThumbUpCount"] == DBNull.Value) ? 0 : (int)rdr["ArticleThumbUpCount"];
             a.DownVote = (rdr["ArticleThumbDownCount"] == DBNull.Value) ? 0 : (int)rdr["ArticleThumbDownCount"];
             a.CommentCount = (rdr["ArticleCommentCount"] == DBNull.Value) ? 0 : (int)rdr["ArticleCommentCount"];
+           
             a.EditorUserId = (rdr["EditorUserId"] == DBNull.Value) ? (Guid?)null : (Guid?)rdr["EditorUserId"];
             a.EditorUserName = (rdr["EditorUserName"] == DBNull.Value) ? string.Empty : (string)rdr["EditorUserName"];
             a.AssignedDate = (rdr["AssignedDate"] == DBNull.Value) ? (DateTime?)null : (DateTime?)rdr["AssignedDate"];
             a.EditorReviewNote = (rdr["EditorReviewNote"] == DBNull.Value) ? string.Empty : (string)rdr["EditorReviewNote"];
-
+            a.Genre = (rdr["Genre"] == DBNull.Value) ? string.Empty : (string)rdr["Genre"];
             return a;
         }
     }

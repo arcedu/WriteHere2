@@ -96,7 +96,7 @@ namespace DataAccess
             a.AssignedDate = (DateTime)rdr["AssignedDate"];
             a.AuthorUserId = (Guid)rdr["AuthorUserId"];
             a.EditorUserId = (Guid)rdr["EditorUserId"];
-
+            a.EditorUserName = (rdr["EditorUserName"] == DBNull.Value) ? string.Empty : rdr["EditorUserName"].ToString(); 
             return a;
         }
     }

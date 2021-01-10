@@ -1,21 +1,23 @@
 import { Component, Inject} from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { User,Article } from '../types';
+import { User, Article } from '../types';
 
 @Component({
   selector: 'app-articledetails-component',
   templateUrl: './articledetails.component.html',
 })
 
+
 export class ArticleDetailsComponent{
   private _baseUrl: string;
   private _http: HttpClient;
-  public isEditable: boolean;
+  
   public article: Article;
   public msg: string;
-  public userId: string;
+  public user: User;
   public isEditor: boolean;
   public isWriter: boolean;
+  public isNewArticle: boolean;
 
   public getUser() {
     try { return JSON.parse(localStorage.getItem('user')) as User; }
@@ -27,25 +29,24 @@ export class ArticleDetailsComponent{
 
     const urlParams = new URLSearchParams(window.location.search);
     var articleid = urlParams.get('id');
-    var user = this.getUser();
-    if (user != null) {
-      this.userId = user.id;
-      this.isEditor = user.isEditor;
-      this.isWriter = user.isWriter;
-
+    this.user = this.getUser();
+    if (this.user != null) {
       if (articleid == null && this.isWriter) {
         this.article = new Article();
         this.article.title = 'NEW ARTICLE';
-        this.isEditable = true;
+        this.isNewArticle = true;
+        this.isEditor = false;
+        this.isWriter = this.user.isWriter;
+
       }
       else {
+        this.article = new Article();
+        this.article.title = 'loading ... ';
+
+        this.isNewArticle = false;
         this._baseUrl = baseUrl;
         this._http = http;
         this.getArticle(articleid);
-        if ((this.isWriter && this.article.ownerUserId == this.userId )
-          || this.isEditor && this.article.editorUserId == this.userId ) {
-          this.isEditable = true;
-        }
       }
     }
   }
@@ -54,23 +55,21 @@ export class ArticleDetailsComponent{
     this._http.get<Article>(this._baseUrl + 'api/Article/GetArticle?id=' + id)
       .subscribe(result => {
         this.article = result;
-      }, error => console.error(error));
-  }
+        this.isEditor = this.user.isEditor
+          && this.article.editorUserId == this.user.id
+          && this.article.ownerUserId != this.user.id;
+        this.isWriter = this.user.isWriter
+          && this.article.ownerUserId == this.user.id;
 
-  public testOther() {
-    alert('testOther : ' + this.article.id);
-    this._http.get<Article>(this._baseUrl + 'api/Article/AnyFuncName?id=' + this.article.id)  // +'&aaa=123b')
-      .subscribe(result => {
-        var a = result;
-        a.title = 'test';
       }, error => console.error(error));
   }
 
   public saveArticle() {
 
-    this.article.ownerUserId = this.userId;
+    this.article.ownerUserId = this.user.id;
       this._http.post(this._baseUrl + 'api/Article/', this.article)
         .subscribe((res: Article) => {
+    
           this.article = res;
           this.msg = 'Saved at ' + new Date();
         })
@@ -100,16 +99,15 @@ export class ArticleDetailsComponent{
         })
     }
   }
-  //public get() {
-  //  alert('get ' + this._baseUrl +this.url);
-  //  return this._http.get(this._baseUrl +this.url, { headers: this.headers });
-  //}
-  //public add() {
-  //  return this._http.post(this._baseUrl +this.url, this.payload, { headers: this.headers });
-  //}
-  //public remove() {
-  //  return this._http.delete(this._baseUrl +this.url + '/' + this.payload.id, { headers: this.headers });
-  //}
- 
 
+
+}
+export interface  Article2 {
+  id: string;
+  title: string;
+  subtitle: string;
+  summary: string;
+  content: string;
+  editorReviewNote: string;
+  genre: string;
 }

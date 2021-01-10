@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../types';
+import { User, Assignment } from '../types';
 
 @Component({
   selector: 'app-myassignments-component',
@@ -35,15 +35,4 @@ export class MyAssignmentsComponent {
         }, error => console.error(error));
     }
   }
-}
-
-interface Assignment {
-  id: string;
-  title: string;
-  subtitle: string;
-  articleStatus: string;
-  authorDisplayName: string;
-  assignedDate: Date;
-  authorUserId: string;
-  editorUserId: string;
 }

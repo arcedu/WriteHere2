@@ -10,16 +10,20 @@ import { User } from '../types';
 
 
 export class MemberdashboardComponent {
-  public isEditor: boolean;
-  public isReader: boolean;
-  public isWriter: boolean;
+  public loginUser: User;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    var user = this.getUser();
-    if (user != null) {
-      this.isReader = user.isReader;
-      this.isEditor = user.isEditor;
-      this.isWriter = user.isWriter;
+    this.loginUser = this.getUser();
+    if (this.loginUser == null) {
+      // navigation should not be here, because only loggin user can visit my dashboard.
+      // this is for user visit by directly typing url.
+      this.loginUser = new User();
+      this.loginUser.isAdmin = false;
+      this.loginUser.isReader = false;
+      this.loginUser.isEditor = false;
+      this.loginUser.isWriter = false;
+      this.loginUser.isTutor = false;
+      this.loginUser.isDrawer = false;
     }
   }
 

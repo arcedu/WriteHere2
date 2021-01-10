@@ -12,14 +12,40 @@ export class Article {
   summary: string;
   content: string;
   editorReviewNote: string;
-  authorDisplayName: string;
+  genre: string;
+
   ownerUserId: string;
   authorIsPublicProfile: boolean;
+  authorDisplayName: string;
   firstName: string;
   lastName: string;
+  articleStatus: string;
+
+  viewedCount: number;
+  upvote: number;
+  downVote: number;
+  commentCount: number;
+
   editorUserId: string;
   editorUserName: string;
   assignedDate: Date;
+}
+
+export class ArticleQuery {
+  genre: string;
+  ownerUserId: string;
+  editorUserId: string;
+  statusName: string;
+}
+export class ArticleSearch {
+  field: string; // title, subtitle, summary, authorDisplayName, genre, editorUserName, viewedCount, upvote, downVote
+  optor: string; //  Contain, greater than, equal, less than
+  value: string;
+}
+
+export class ArticleOrderby{
+  field: string; // title, subtitle, summary, authorDisplayName, genre, editorUserName, viewedCount, upvote, downVote
+  asc: boolean; // 1: asc, 0: desc
 }
 
 export class User {
@@ -44,4 +70,19 @@ export class User {
   isDrawer: boolean;
   isTutor: boolean;
 }
+
+
+export class Assignment {
+  id: string;
+  title: string;
+  subtitle: string;
+  articleStatus: string;
+  authorDisplayName: string;
+  assignedDate: Date;
+  authorUserId: string;
+  authorUserName: string;
+  editorUserId: string;
+  editorUserName: string;
+}
+
 

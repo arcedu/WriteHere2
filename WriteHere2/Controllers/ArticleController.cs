@@ -4,24 +4,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
-
+using Newtonsoft.Json;
 
 namespace WriteHere2.Controllers
 {
+
     [Route("api/[controller]")]
     public class ArticleController : Controller
     {
         [HttpGet("[action]")]
-        public IEnumerable<Article> GetArticleList(Guid? authorUserId,Guid? editorUserId, string statusName)
+        public IEnumerable<Article> GetArticleList( string querystring)
         {
-            var list = ArticleRepository.GetArticleList(authorUserId, editorUserId, statusName);
+            var articleQuery = new ArticleQuery();
+            if (!string.IsNullOrEmpty(querystring))
+            {
+                articleQuery = JsonConvert.DeserializeObject<ArticleQuery>(querystring);
+            }
+           var list = ArticleRepository.GetArticleList(articleQuery);
             return list;
         }
+
 
         [HttpGet("[action]")]
         public Article GetArticle(Guid id)
         {
             var a = ArticleRepository.GetArticle(id);
+
             return a;
         }
 

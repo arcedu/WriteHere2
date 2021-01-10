@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User, Article } from '../types';
+import { User, Article, ArticleQuery } from '../types';
 
 @Component({
   selector: 'app-fetch-data',
@@ -33,13 +33,16 @@ export class FetchDataComponent {
     }, error => console.error(error));
   }
 
-  public getArticleList() {
-
-    this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList').subscribe(result => {
+  public getArticleListByQuery() {
+    var query = new ArticleQuery();
+    query.statusName = 'published';
+    query.genre = 'fantasy';
+  
+    this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList/?queryString=' + encodeURIComponent(JSON.stringify(query)))
+      .subscribe(result => {
       this.articles = result;
     }, error => console.error(error));
   }
-
 
   public getUserList() {
     alert('a');

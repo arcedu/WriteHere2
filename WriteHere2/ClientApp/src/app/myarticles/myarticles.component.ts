@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User, Article } from '../types';
+import { User, Article, ArticleQuery } from '../types';
 
 @Component({
   selector: 'app-myarticles-component',
@@ -18,7 +18,7 @@ export class MyArticlesComponent {
     this._baseUrl = baseUrl;
     this._http = http;
 
-    this.getArticleList();
+    this.getArticleListByQuery(); //getArticleList();
   }
 
   public getUser() {
@@ -26,10 +26,13 @@ export class MyArticlesComponent {
     catch { return null; }
   }
 
-  public getArticleList() {
+  public getArticleListByQuery() {
     var user = this.getUser();
     if (user != null) {
-       this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList?authorUserid=' + user.id)
+      var query = new ArticleQuery();
+      query.ownerUserId = user.id;
+      
+      this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList/?queryString=' + encodeURIComponent(JSON.stringify(query)))
         .subscribe(result => {
           this.articles = result;
         }, error => console.error(error));

@@ -15,5 +15,6 @@ namespace DataAccess
         public DateTime AssignedDate;
         public Guid AuthorUserId;
         public Guid EditorUserId;
+        public string EditorUserName;
     }
 }

@@ -7,9 +7,7 @@
   <title></title>
 </head>
 <body>
-
-
-  <div *ngIf="isEditable">
+  <div *ngIf="isEditor || isWriter">
     <table width="90%">
       <tr>
         <td width="70%">
@@ -27,18 +25,19 @@
                src="../_images/Submit.png"
                alt="Submit"
                (click)="submitArticle()">
-          <img *ngIf="isWriter"
+          <img *ngIf="isWriter && !isNewArticle"
                class="actionbuttonimage"
                src="../_images/Delete.png"
                alt="Delete"
                (click)="deleteArticle()">
-
-          <img *ngIf="isEditor"
+          
+          <img *ngIf="isEditor && !isNewArticle"
                class="actionbuttonimage"
                src="../_images/Reject.png"
                alt="Reject"
                (click)="rejectArticle()">
-          <img *ngIf="isEditor" class="actionbuttonimage"
+          <img *ngIf="isEditor && !isNewArticle"
+               class="actionbuttonimage"
                src="../_images/Publish.png"
                alt="Publish"
                (click)="publishArticle()">
@@ -50,18 +49,18 @@
       <tr>
         <td>
           <label for="Title">Title</label><br />
-          <textarea id="Title" name="Title" rows="1" cols="50" style=" margin-right: 10px;">{{ article.title }}</textarea>
+          <textarea id="Title" name="Title" rows="1" cols="50" style=" margin-right: 10px;"[(ngModel)]='article.title'></textarea>
         </td>
 
       </tr>
       <tr>
         <td>
           <label for="Subtitle">Subtitle</label><br />
-          <textarea id="Subtitle" name="Subtitle" rows="1" cols="50" style=" margin-right: 10px;">{{ article.subtitle }}</textarea>
+          <textarea id="Subtitle" name="Subtitle" rows="1" cols="50" style=" margin-right: 10px;"[(ngModel)]='article.subtitle'></textarea>
         </td>
         <td>
           <label for="AuthorDisplayName">Pen name</label><br />
-          <textarea id="AuthorDisplayName" name="AuthorDisplayName" rows="1" cols="20">{{ article.authorDisplayName }}</textarea>
+          <textarea id="AuthorDisplayName" name="AuthorDisplayName" rows="1" cols="20"[(ngModel)]='article.authorDisplayName'></textarea>
         </td>
       </tr>
 
@@ -69,19 +68,21 @@
 
     <label for="Summary">Summary</label>
     <br />
-    <textarea id="Summary" name="Summary" rows="2" cols="100">{{ article.summary }}</textarea>
+    <textarea id="Summary" name="Summary" rows="2" cols="100" [(ngModel)]='article.summary'></textarea>
     <br />
     <label for="Content">Content</label>
     <br />
-    <textarea id="Content" name="Content" rows="18" cols="100">{{ article.content }}</textarea>
+    <textarea id="Content" name="Content" rows="18" cols="100" [(ngModel)]='article.content'></textarea>
     <br />
     <div *ngIf="!isEditor">
-      <textarea id="EditorReviewNote" name="EditorReviewNote" rows="2" cols="100">{{ article.editorReviewNote }}</textarea>
-    <br />
+      <label for="Content">Editor Review Notes</label>
+      <br />
+      <textarea id="EditorReviewNote" name="EditorReviewNote" rows="2" cols="100" [(ngModel)]='article.editorReviewNote'></textarea>
+      <br />
     </div>
   </div>
 
-  <div *ngIf="!isEditable">
+  <div *ngIf="!isEditor && !isWriter">
     <h1>{{ article.title }}</h1>
     <h3>{{ article.subtitle}}</h3>
     <p>{{article.authorDisplayName}}</p>
@@ -90,8 +91,6 @@
 
   <!--<img src="../../../../../../../../Pictures/WriteHereNav.jpg" alt="...">-->
 
-  <button *ngIf="isEditable" (click)="get()">get</button>
-  <button *ngIf="isEditable" (click)="testOther()">test otherfunc</button>
 
 </body>
 </html>
