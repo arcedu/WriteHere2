@@ -89,7 +89,7 @@ import { UserDetailsComponent } from './userdetails/userdetails.component';
       { path: 'myassignments', component: MyAssignmentsComponent },
       { path: 'articledetails', component: ArticleDetailsComponent },
       { path: 'assignmentdetails', component: AssignmentDetailsComponent },
-      { path: 'hallofame', component: HallOFameComponent }
+      { path: 'hallofame', component: HallOFameComponent },
       { path: 'userlist', component: UserListComponent },
       { path: 'userdetails', component: UserDetailsComponent }
 
