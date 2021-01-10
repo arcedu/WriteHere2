@@ -1,87 +1,113 @@
 import { Component, Inject} from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-
+import { User, Article } from '../types';
 
 @Component({
   selector: 'app-articledetails-component',
   templateUrl: './articledetails.component.html',
-  // styleUrls: ['.././site.component.css']
 })
+
+
 export class ArticleDetailsComponent{
   private _baseUrl: string;
   private _http: HttpClient;
-  public isEditable: boolean;
+  
   public article: Article;
   public msg: string;
+  public user: User;
+  public isEditor: boolean;
+  public isWriter: boolean;
+  public isNewArticle: boolean;
 
+  public getUser() {
+    try { return JSON.parse(localStorage.getItem('user')) as User; }
+    catch { return null; }
+  }
 
   constructor(http: HttpClient,
     @Inject('BASE_URL') baseUrl: string) {
 
     const urlParams = new URLSearchParams(window.location.search);
-    var id = urlParams.get('id');
-    this.isEditable = (urlParams.get('isEditable') === 'true');
-    if (id == null) {
+    var articleid = urlParams.get('id');
+    this.user = this.getUser();
+    if (this.user != null) {
+      if (articleid == null && this.isWriter) {
         this.article = new Article();
         this.article.title = 'NEW ARTICLE';
-      }
-      else {
-        this._baseUrl = baseUrl;
-        this._http = http;
-        this.getArticle(id);
+        this.isNewArticle = true;
+        this.isEditor = false;
+        this.isWriter = this.user.isWriter;
 
       }
+      else {
+        this.article = new Article();
+        this.article.title = 'loading ... ';
+
+        this.isNewArticle = false;
+        this._baseUrl = baseUrl;
+        this._http = http;
+        this.getArticle(articleid);
+      }
     }
+  }
   
   public getArticle(id) {
     this._http.get<Article>(this._baseUrl + 'api/Article/GetArticle?id=' + id)
       .subscribe(result => {
         this.article = result;
-      }, error => console.error(error));
-  }
+        this.isEditor = this.user.isEditor
+          && this.article.editorUserId == this.user.id
+          && this.article.ownerUserId != this.user.id;
+        this.isWriter = this.user.isWriter
+          && this.article.ownerUserId == this.user.id;
 
-  public testOther() {
-    alert('testOther : ' + this.article.id);
-    this._http.get<Article>(this._baseUrl + 'api/Article/AnyFuncName?id=' + this.article.id)  // +'&aaa=123b')
-      .subscribe(result => {
-        var a = result;
-        a.title = 'test';
       }, error => console.error(error));
   }
 
   public saveArticle() {
-    this.article.ownerUserId = localStorage.getItem('userid');
+
+    this.article.ownerUserId = this.user.id;
       this._http.post(this._baseUrl + 'api/Article/', this.article)
         .subscribe((res: Article) => {
+    
           this.article = res;
-          this.msg = 'saved at ' + new Date();
+          this.msg = 'Saved at ' + new Date();
         })
   };
 
+  // still debug. not working
+  public submitArticle() {
+    if (confirm("Once submitted, you cannot edit the article. \nAre you sure to submit the article?")) {
 
-  //public get() {
-  //  alert('get ' + this._baseUrl +this.url);
-  //  return this._http.get(this._baseUrl +this.url, { headers: this.headers });
-  //}
-  //public add() {
-  //  return this._http.post(this._baseUrl +this.url, this.payload, { headers: this.headers });
-  //}
-  //public remove() {
-  //  return this._http.delete(this._baseUrl +this.url + '/' + this.payload.id, { headers: this.headers });
-  //}
- 
+      this.article.ownerUserId = this.getUser().id;
+      this._http.get(this._baseUrl + 'api/Article/sumbitArticle')
+        .subscribe((res: Article) => {
+          this.article = res;
+          this.msg = 'Submitted at ' + new Date();
+        })
+    }
+  }
+
+  public deleteArticle() {
+    if (confirm("Once delete, you cannot undo the deletion. \nAre you sure to delete the article?")) {
+
+      this.article.ownerUserId = this.getUser().id;
+      this._http.delete(this._baseUrl + 'api/Article/' + this.article.id )
+        .subscribe((res: Article) => {
+          this.article = res;
+          this.msg = 'Deleted at ' + new Date();
+        })
+    }
+  }
+
 
 }
-
-export class Article {
+export interface  Article2 {
   id: string;
   title: string;
   subtitle: string;
   summary: string;
   content: string;
-  authorDisplayName: string;
-  ownerUserId: string;
-  authorIsPublicProfile: boolean;
-  firstName: string;
-  lastName: string;
+  editorReviewNote: string;
+  genre: string;
 }

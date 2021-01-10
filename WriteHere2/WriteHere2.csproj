@@ -20,6 +20,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.1.13" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,12 +37,29 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\_images\Comment.png" />
+    <Content Remove="wwwroot\_images\VoteDown.png" />
+    <Content Remove="wwwroot\_images\VoteUp.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ClientApp\src\app\published\nav-menu.component.ts" />
     <None Remove="ClientApp\src\app\published\nav-menu.component.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\_images\" />
+    <Folder Include="ClientApp\src\app\_shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\_images\Comment.png" />
+    <None Include="wwwroot\_images\VoteDown.png" />
+    <None Include="wwwroot\_images\VoteUp.png" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

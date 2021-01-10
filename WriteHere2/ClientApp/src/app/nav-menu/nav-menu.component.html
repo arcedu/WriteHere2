@@ -9,7 +9,8 @@
         </button>
         <table>
           <tr>
-            <td><a class='navbar-brand' [routerLink]='["/"]'>Write Here</a></td>
+            <td>
+            <a class='navbar-brand' [routerLink]='["/"]'>Write Here</a></td>
             <td><label class='infolabel'>{{getUsername()}}</label></td>
             <td align="right">
               <a class='navbar-brand' *ngIf="!isLoggedIn()" [routerLink]='["/login"]' style="font-size:15px;">Login</a>

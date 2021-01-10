@@ -12,25 +12,25 @@ namespace WriteHere2.Controllers
     public class UserController : Controller
     {
         [HttpGet("[action]")]
-        public IEnumerable<UserInfo> GetUserInfoList()
+        public IEnumerable<User> GetUserList()
         {
-            var list = UserRepository.GetUserInfoList();
+            var list = UserRepository.GetUserList();
             return list;
         }
 
         [HttpGet("[action]")]
-        public UserInfo GetUserInfoById(Guid id)
+        public User GetUserById(Guid id)
         {
-            var a = UserRepository.GetUserInfoById(id);
+            var a = UserRepository.GetUserById(id);
             return a;
         }
 
 
         [HttpGet("[action]")]
-        public UserInfo Login(string username, string password)
+        public User Login(string username, string password)
         {
        
-            var user = UserRepository.GetUserInfoByLogin(username, password);
+            var user = UserRepository.GetUserByLogin(username, password);
             
             return user;
         }

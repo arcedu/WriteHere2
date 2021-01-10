@@ -1,6 +1,8 @@
 
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Article } from '../types';
+
 
 @Component({
   selector: 'app-writearticle-component',
@@ -29,16 +31,4 @@ export class writearticleComponent {
   public redirectToFiles() {
     location.replace("/filewritearticle")
   }
-}
-
-interface Article {
-  id: string;
-  title: string;
-  subtitle: string;
-  summary: string;
-  content: string;
-  articleStatus: string;
-  authorDisplayName: string;
-  firstName: string;
-  lastName: string;
 }

@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User, Article, ArticleQuery } from '../types';
 
 @Component({
   selector: 'app-fetch-data',
@@ -12,7 +13,7 @@ export class FetchDataComponent {
   public forecasts: WeatherForecast[];
   public articles: Article[];
   public article: Article;
-  public users: UserInfo[];
+  public users: User[];
 
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
@@ -25,8 +26,6 @@ export class FetchDataComponent {
 
   }
 
-
-
   public getArticle() {
 
     this._http.get<Article>(this._baseUrl + 'api/Article/GetArticle?id=4CA6E115-BD4C-4D9B-AEB8-A590E80719EA').subscribe(result => {
@@ -34,17 +33,20 @@ export class FetchDataComponent {
     }, error => console.error(error));
   }
 
-  public getArticleList() {
-
-    this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList').subscribe(result => {
+  public getArticleListByQuery() {
+    var query = new ArticleQuery();
+    query.statusName = 'published';
+    query.genre = 'fantasy';
+  
+    this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList/?queryString=' + encodeURIComponent(JSON.stringify(query)))
+      .subscribe(result => {
       this.articles = result;
     }, error => console.error(error));
   }
 
-
   public getUserList() {
     alert('a');
-    this._http.get<UserInfo[]>(this._baseUrl + 'api/User/GetUserInfoList').subscribe(result => {
+    this._http.get<User[]>(this._baseUrl + 'api/User/GetUserList').subscribe(result => {
      this.users = result;
   }, error => console.error(error));
 }
@@ -56,24 +58,5 @@ interface WeatherForecast {
   temperatureF: number;
   summary: string;
 }
-interface Article {
-  id: string;
-  title: string;
-  subtitle: string;
-  content: string;
-  articleStatus: string;
-  authorDisplayName: string;
-  firstName: string;
-  lastName: string;
-}
 
-interface Role {
-  id: string;
-  rolename: string;
-}
-interface UserInfo {
-  id: string;
-  username: string;
-  roles: Role[]
-  
-}
+

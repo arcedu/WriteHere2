@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User, Article, ArticleQuery } from '../types';
 
 @Component({
   selector: 'app-myarticles-component',
@@ -17,18 +18,25 @@ export class MyArticlesComponent {
     this._baseUrl = baseUrl;
     this._http = http;
 
-    this.getArticleList();
+    this.getArticleListByQuery(); //getArticleList();
   }
-  public getUsername() { return localStorage.getItem('username'); }
-  public getUserId() { return localStorage.getItem('userid'); }
 
-  public getArticleList() {
-    var userid = this.getUserId();
+  public getUser() {
+    try { return JSON.parse(localStorage.getItem('user')) as User; }
+    catch { return null; }
+  }
 
-    this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList?userid=' + userid)
-      .subscribe(result => {
-      this.articles = result;
-    }, error => console.error(error));
+  public getArticleListByQuery() {
+    var user = this.getUser();
+    if (user != null) {
+      var query = new ArticleQuery();
+      query.ownerUserId = user.id;
+      
+      this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList/?queryString=' + encodeURIComponent(JSON.stringify(query)))
+        .subscribe(result => {
+          this.articles = result;
+        }, error => console.error(error));
+    }
   }
 
   public composeArticle() {
@@ -36,14 +44,3 @@ export class MyArticlesComponent {
 
   }
 }
-
-interface Article {
-  id: string;
-  title: string;
-  subtitle: string;
-  articleStatus: string;
-  authorDisplayName: string;
-  firstName: string;
-  lastName: string;
-}
-

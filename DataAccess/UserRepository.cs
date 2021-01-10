@@ -8,133 +8,107 @@ namespace DataAccess
 {
     public static class UserRepository
     {
-        public static UserInfo GetUserInfoByLogin(string username, string password)
+        public static User GetUserByLogin(string username, string password)
         {
             SqlDataReader rdrUser = null;
-            SqlDataReader rdrRole = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);
             SqlCommand cmdUser = new SqlCommand("SELECT * FROM dbo.[User] WHERE UserName = @u AND LoginPassword = @p", conn);
             cmdUser.Parameters.AddWithValue("@u", username);
             cmdUser.Parameters.AddWithValue("@p", password);
 
-            UserInfo user = null;
+            User user = null;
             try
             {
                 conn.Open();
                 rdrUser = cmdUser.ExecuteReader();
-                
                 if (rdrUser.Read())
                 {
-                    user = new UserInfo();
-                    user.Id = (System.Guid)rdrUser["ID"];
-                    user.UserName = (string)rdrUser["UserName"];
-                }
-                if (rdrUser != null) { rdrUser.Close(); }
-                if (user != null)
-                {
-                    SqlCommand cmdRole = new SqlCommand("SELECT r.Id, R.RoleName FROM dbo.[UserRole] ur LEFT OUTER JOIN [Role] r ON ur.RoleID = r.ID WHERE UserID ='" + user.Id + "'", conn);
-                    rdrRole = cmdRole.ExecuteReader();
-                    while (rdrRole.Read())
-                    {
-                        var role = new Role();
-                        role.Id = (System.Guid)rdrRole["ID"];
-                        role.RoleName = (string)rdrRole["RoleName"];
-                        user.Roles.Add(role);
-                    }
+                    user = ReadRow(rdrUser);
                 }
             }
             finally
             {
                 if (rdrUser != null) { rdrUser.Close(); }
-                if (rdrRole != null) { rdrRole.Close(); }
                 if (conn != null) { conn.Close(); }
             }
             return user;
         }
 
-        public static UserInfo GetUserInfoById(Guid id)
+        public static User GetUserById(Guid id)
         {
             SqlDataReader rdrUser = null;
-            SqlDataReader rdrRole = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);
             SqlCommand cmdUser = new SqlCommand("SELECT * FROM dbo.[User] WHERE ID ='" + id+"'" , conn);
-            SqlCommand cmdRole = new SqlCommand("SELECT * FROM dbo.[UserRole] WHERE UserID ='" + id + "'", conn);
-            var user = new UserInfo();
+
+            User user =null;
             try
             {
                 conn.Open();
                 rdrUser = cmdUser.ExecuteReader();
-                rdrRole = cmdRole.ExecuteReader();
                 if (rdrUser.Read())
                 {
-                    user.Id = (System.Guid)rdrUser["ID"];
-                    user.UserName = (string)rdrUser["UserName"];
+                    user = ReadRow(rdrUser);
                 }
-                if (rdrUser != null) { rdrUser.Close(); }
-
-                while (rdrRole.Read())
-                    {
-                        var role = new Role();
-                        role.Id = (System.Guid)rdrRole["ID"];
-                        role.RoleName = (string)rdrRole["RoleName"];
-                        user.Roles.Add(role);
-
-                    }
-                
             }
             finally
             {
                 if (rdrUser != null) { rdrUser.Close(); }
-                if (rdrRole != null) { rdrRole.Close(); }
                 if (conn != null) { conn.Close(); }
             }
             return user;
         }
 
-        public static List<UserInfo> GetUserInfoList()
+        public static List<User> GetUserList()
         {
             SqlDataReader rdrUser = null;
-            SqlDataReader rdrRole = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);
             SqlCommand cmdUser = new SqlCommand("SELECT * FROM dbo.[User] ", conn);
-            var list = new List<UserInfo>();
+            var list = new List<User>();
             try
             {
                 conn.Open();
                 rdrUser = cmdUser.ExecuteReader();
                 while (rdrUser.Read())
                 {
-                    var user = new UserInfo();
-                    user.Id = (System.Guid)rdrUser["ID"];
-                    user.UserName = (string)rdrUser["UserName"];
+                    var user = ReadRow(rdrUser);
                     list.Add(user);
-                }
-                if (rdrUser != null) { rdrUser.Close(); }
-                
-                foreach (var user in list)
-                {
-                    SqlCommand cmdRole = new SqlCommand("SELECT u.Id,r.RoleName FROM dbo.[UserRole] u LEFT OUTER JOIN dbo.[Role] r ON u.RoleId = r.ID WHERE UserID ='" + user.Id + "'", conn);
-                    rdrRole = cmdRole.ExecuteReader();
-
-                  
-                    while (rdrRole.Read())
-                    {
-                        var role = new Role();
-                        role.Id = (System.Guid)rdrRole["ID"];
-                        role.RoleName = (string)rdrRole["RoleName"];
-                        user.Roles.Add(role);
-
-                    }
-                    if (rdrRole != null) { rdrRole.Close(); }
                 }
             }
             finally
             {
                 if (rdrUser != null) { rdrUser.Close(); }
-                if (rdrRole != null) { rdrRole.Close(); }
                 if (conn != null) { conn.Close(); }
             }
             return list;
+        }
+
+        private static User ReadRow(SqlDataReader rdr)
+        {
+            var user = new User();
+
+            user.Id = (Guid)rdr["ID"];
+            user.UserName = (string)rdr["UserName"];
+            user.FirstName = (rdr["FirstName"] == DBNull.Value) ? string.Empty : rdr["FirstName"].ToString();
+            user.LastName = (rdr["LastName"] == DBNull.Value) ? string.Empty : rdr["LastName"].ToString();
+            var gradeAsOf2021 = (rdr["GradeAsOf2021"] == DBNull.Value) ? 0 : (int)rdr["GradeAsOf2021"];
+            user.Grade = gradeAsOf2021 + DateTime.Today.Year - gradeAsOf2021;
+            user.ShowGrade = (rdr["ShowGrade"] == DBNull.Value) ? false : (bool)rdr["ShowGrade"];
+            user.Country = (rdr["Country"] == DBNull.Value) ? string.Empty : rdr["Country"].ToString();
+            user.ShowCountry = (rdr["ShowCountry"] == DBNull.Value) ? false : (bool)rdr["ShowCountry"];
+            user.State = (rdr["State"] == DBNull.Value) ? string.Empty : rdr["State"].ToString();
+            user.ShowState = (rdr["ShowState"] == DBNull.Value) ? false : (bool)rdr["ShowState"];
+
+            user.ShowProfile = (rdr["ShowProfile"] == DBNull.Value) ? false : (bool)rdr["ShowProfile"];
+            user.ShowInHall = (rdr["ShowInHall"] == DBNull.Value) ? false : (bool)rdr["ShowInHall"];
+            user.IsAdmin = (rdr["IsAdmin"] == DBNull.Value) ? false : (bool)rdr["IsAdmin"];
+            user.IsReader = (rdr["IsReader"] == DBNull.Value) ? false : (bool)rdr["IsReader"];
+            user.IsWriter = (rdr["IsWriter"] == DBNull.Value) ? false : (bool)rdr["IsWriter"];
+            user.IsEditor = (rdr["IsEditor"] == DBNull.Value) ? false : (bool)rdr["IsEditor"];
+            user.IsAuditor = (rdr["IsAuditor"] == DBNull.Value) ? false : (bool)rdr["IsAuditor"];
+            user.IsDrawer = (rdr["IsDrawer"] == DBNull.Value) ? false : (bool)rdr["IsDrawer"];
+            user.IsTutor = (rdr["IsTutor"] == DBNull.Value) ? false : (bool)rdr["IsTutor"];
+
+            return user;
         }
     }
 }

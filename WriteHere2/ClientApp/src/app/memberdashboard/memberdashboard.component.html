@@ -6,17 +6,40 @@
 </head>
 <body>
   <h1>User Dashboard</h1>
-
-  <button (click)="redirectToMyAccount()" class="margin" style="width:50%;height:33%;">My Account</button>
-  <!--<button (click)="redirectToArticleDetails()" class="margin" style="width:50%">New Article</button>
-  <button (click)="redirectToArticleDetails()" class="margin" style="width:50%">Liked Articles</button>
-  <button (click)="redirectToArticleDetails()" class="margin" style="width:50%">New Article</button>-->
-  <!--aiden delete that ^-->
-  <button (click)="redirectToMyArticles()" class="margin" style="width: 50%;height: 33%;">My Articles</button>
-  <button (click)="redirectToPublished()" class="margin" style="width: 50%;height: 33%;">My Liked Articles</button>
-  <button (click)="redirectToMyAssignments()" class="margin" style="width: 50%;height: 33%;">My Assignments to Edit</button>
-
-
+  <button (click)="redirectToMyAccount()"
+          class="wide-margin long-button">
+    My Account
+  </button>
+  <button *ngIf="loginUser.isWriter"
+          (click)="redirectToMyArticles()"
+          class="wide-margin long-button">
+    My Articles
+  </button>
+  <button *ngIf="loginUser.isReader"
+          (click)="redirectToPublished()"
+          class="wide-margin long-button">
+    My Liked Articles
+  </button>
+  <button *ngIf="loginUser.isEditor"
+          (click)="redirectToMyAssignments()"
+          class="wide-margin long-button">
+    My Assignments to edit
+  </button>
+  <button *ngIf="loginUser.isTutor "
+          (click)="redirectToMyAssignments()"
+          class="wide-margin long-button">
+    My Assignments to tutor
+  </button>
+  <button *ngIf="loginUser.isDrawer "
+          (click)="redirectToMyAssignments()"
+          class="wide-margin long-button">
+    My Assignments to illustrate
+  </button>
+  <button *ngIf="loginUser.isAdmin"
+          (click)="redirectToAdmin()"
+          class="wide-margin long-button">
+    Admin Settings
+  </button>
 </body>  
 
 </html>

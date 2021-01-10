@@ -1,10 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Article, ArticleQuery } from '../types';
 
 @Component({
   selector: 'app-published-component',
   templateUrl: './published.component.html',
- // styleUrls: ['.././site.component.css']
+  // styleUrls: ['.././site.component.css']
 })
 export class PublishedComponent {
   private _baseUrl: string;
@@ -17,22 +18,17 @@ export class PublishedComponent {
     this._http = http;
     this.isLiked = true;
 
-
-    http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList').subscribe(result => {
-      this.articles = result;
-
-    }, error => console.error(error));
+    this.getArticleListByQuery();
   }
 
-}
-interface Article {
-  id: string;
-  title: string;
-  subtitle: string;
+  public getArticleListByQuery() {
+    var query = new ArticleQuery();
+    query.statusName = 'Published';
 
-  authorDisplayName: string;
-  firstName: string;
-  lastName: string;
-  upVote: number;
-  downVote: number;
+    this._http.get<Article[]>(this._baseUrl + 'api/Article/GetArticleList/?queryString=' + encodeURIComponent(JSON.stringify(query)))
+      .subscribe(result => {
+        this.articles = result;
+      }, error => console.error(error));
+
+  }
 }
