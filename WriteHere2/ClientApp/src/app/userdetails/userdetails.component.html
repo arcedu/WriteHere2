@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+</head>
+<body>
+  <h1>Current account information.</h1>
+  <form>
+    <label for="firstnametest">{{user.firstName}}</label><br>
+    <input type="text" id="firstnametest" name="firstnametest"><br>
+    <label for="lastnametest">{{user.lastName}}</label><br>
+    <input type="text" id="lastnametest" name="lastnametest"><br>
+    <label for="emailtest">{{user.email}}</label><br>
+    <input type="email" id="emailtest" name="emailtest"><br>
+    <label for="gradetest">{{user.grade}}</label><br>
+    <input type="text" id="gradetest" name="gradetest"><br>
+    <p>(Please note that your submitted articles will be judged according to the standards of your listed grade level. Grade levels will automatically update according to school years.)</p>
+    <label for="pennametest">{{user.userName}}</label><br>
+    <input type="text" id="pennametest" name="pennametest"><br>
+    <label for="pwdtest">{{user.loginPassword}}</label><br>
+    <input type="password" id="pwdtest" name="pwdtest">
+  </form>
+  <br />
+  <input type="checkbox" id="hallofame" name="hallofame" value="Hallofame">
+  <label for="hallofame"> Include me in the Hall of Fame</label><br>
+  <button (click)="redirectTo()" class="margin">Save Changes</button>
+
+</body>
+</html>
+

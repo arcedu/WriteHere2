@@ -33,6 +33,10 @@ import { FileUploadComponent } from './fileupload/fileupload.component';
 import { HallOFameComponent } from './hallofame/hallofame.component';
 import { ArticleDetailsComponent } from './articledetails/articledetails.component';
 import { AssignmentDetailsComponent } from './assignmentdetails/assignmentdetails.component';
+import { UserListComponent } from './userlist/userlist.component';
+import { UserDetailsComponent } from './userdetails/userdetails.component';
+
+
 
 @NgModule({
   declarations: [
@@ -57,6 +61,9 @@ import { AssignmentDetailsComponent } from './assignmentdetails/assignmentdetail
     ArticleDetailsComponent,
     AssignmentDetailsComponent,
     HallOFameComponent,
+    UserListComponent,
+    UserDetailsComponent,
+
    
   ],
   imports: [
@@ -82,7 +89,10 @@ import { AssignmentDetailsComponent } from './assignmentdetails/assignmentdetail
       { path: 'myassignments', component: MyAssignmentsComponent },
       { path: 'articledetails', component: ArticleDetailsComponent },
       { path: 'assignmentdetails', component: AssignmentDetailsComponent },
-      { path: 'hallofame', component: HallOFameComponent }
+      { path: 'hallofame', component: HallOFameComponent },
+      { path: 'userlist', component: UserListComponent },
+      { path: 'userdetails', component: UserDetailsComponent }
+
 
     ])
   ],

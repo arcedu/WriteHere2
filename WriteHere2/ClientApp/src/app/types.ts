@@ -69,6 +69,7 @@ export class User {
   isAuditor: boolean;
   isDrawer: boolean;
   isTutor: boolean;
+  email: string;
 }
 
 
