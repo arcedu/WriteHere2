@@ -38,6 +38,11 @@ button {
 .dropdownbutton {
     width: 100%;
 }
+.contentlabel {
+  font-size: small;
+  font-style: normal;
+  font-weight: normal;
+}
 .infolabel {
   background-color: aliceblue;
   font-style: italic, normal;

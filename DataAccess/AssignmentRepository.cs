@@ -13,8 +13,29 @@ namespace DataAccess
         }
         public static Assignment SaveAssignment(Assignment a)
         {
-            return a;
-        }
+ // When a.Id is a Guid.Null, this is a create. else this is a update
+                SqlConnection conn = new SqlConnection(Const.ConnString);
+                var cmd = new SqlCommand("sp_Save_Assignment", conn)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@id", a.Id);
+                cmd.Parameters.AddWithValue("@acceptDecline", a.AcceptDecline);
+                cmd.Parameters.AddWithValue("@editorReasonNote", a.EditorReasonNote);
+
+                try
+                {
+                    conn.Open();
+                    var retId = (Guid)cmd.ExecuteScalar();
+                    a.Id = retId;
+                }
+                finally
+                {
+                    if (conn != null) { conn.Close(); }
+                }
+                return a;
+            }
+    
 
 
         public static void DelteAssignment(Guid id)

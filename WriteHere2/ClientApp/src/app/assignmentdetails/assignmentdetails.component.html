@@ -17,11 +17,11 @@
         <img class="actionbuttonimage"
              src="../_images/RejectAssignment.png"
              alt="Reject"
-             (click)="RejectAssignment()">
+             (click)="rejectAssignment()">
         <img class="actionbuttonimage"
              src="../_images/AcceptAssignment.png"
              alt="Accept"
-             (click)="AcceptAssignment()">
+             (click)="acceptAssignment()">
       </td>
     </tr>
   </table>
@@ -29,38 +29,35 @@
   <table>
     <tr>
       <td>
-        <label for="Title">Title</label><br />
-        <textarea id="Title" name="Title" rows="1" cols="50" style=" margin-right: 10px;" [(ngModel)]='assignment.title'></textarea>
+        <h5 for="Title">Title</h5>
+        <label class="contentlabel" id="Title" name="Title" style=" margin-right: 10px;">{{assignment.title}}</label>
       </td>
     </tr>
     <tr>
       <td>
-        <label for="Subtitle">Subtitle</label><br />
-        <textarea id="Subtitle" name="Subtitle" rows="1" cols="50" style=" margin-right: 10px;" [(ngModel)]='assignment.subtitle'></textarea>
+        <h5 for="Subtitle">Subtitle</h5>
+        <label class="contentlabel" id="Subtitle" name="Subtitle" style=" margin-right: 10px;">{{assignment.subtitle}}</label>
       </td>
       <td>
-        <label for="AuthorDisplayName">Pen name</label><br />
-        <textarea id="AuthorDisplayName" name="AuthorDisplayName" rows="1" cols="20" [(ngModel)]='assignment.authorDisplayName'></textarea>
+        <h5 for="AuthorDisplayName">Pen name</h5>
+        <label class="contentlabel" id="AuthorDisplayName" name="AuthorDisplayName" style=" margin-right: 1px;">{{assignment.authorDisplayName}}</label>
       </td>
     <tr>
       <td>
-        <label for="Genre">Pen name</label><br />
-        <textarea id="Genre" name="Genre" rows="1" cols="20" [(ngModel)]='assignment.genre'></textarea>
+        <h5 for="Genre">Genre</h5>
+        <label class="contentlabel" id="Genre" name="Genre">{{assignment.genre}}</label>
       </td>
     </tr>
   </table>
 
-  <label for="Summary">Summary</label>
+  <h5 for="Summary">Summary</h5>
+  <label class="contentlabel" id="Summary" name="Summary" rows="2" cols="100">{{assignment.summary}}</label>
   <br />
-  <label id="Summary" name="Summary" rows="2" cols="100">{{assignment.summary}}</label>
+  <h5 for="Content">Content</h5>
+  <label class="contentlabel" id="Content" name="Content" rows="2" cols="100">{{assignment.content}}</label>
   <br />
-  <label for="Content">Content</label>
-  <br />
-  <label id="Content" name="Content" rows="2" cols="100">{{assignment.content}}</label>
-  <br />
-  <label for="Content">Editor Review Notes</label>
-  <br />
-  <textarea id="EditorReasonNote" name="EditorReviewNote" rows="2" cols="100" [(ngModel)]='assignment.editorReviewNote'></textarea>
+  <h5 for="Content">Editor reason Notes</h5>
+  <textarea id="EditorReasonNote" name="EditorReasonNote" rows="2" cols="100" [(ngModel)]='assignment.editorReasonNote'></textarea>
   <br />
 
 </body>

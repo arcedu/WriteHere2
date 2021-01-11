@@ -12,7 +12,7 @@ export class AssignmentDetailsComponent{
   private _baseUrl: string;
   private _http: HttpClient;
   
-  public Assignment: Assignment;
+  public assignment: Assignment;
   public msg: string;
   public user: User;
   public isEditor: boolean;
@@ -32,15 +32,15 @@ export class AssignmentDetailsComponent{
     this.user = this.getUser();
     if (this.user != null) {
       if (assignmentid == null && this.isWriter) {
-        this.Assignment = new Assignment();
-        this.Assignment.title = 'NEW assignment';
+        this.assignment = new Assignment();
+        this.assignment.title = 'NEW ASSIGNMENT';
         this.isNewAssignment = true;
         this.isEditor = false;
 
       }
       else {
-        this.Assignment = new Assignment();
-        this.Assignment.title = 'loading ... ';
+        this.assignment = new Assignment();
+        this.assignment.title = 'loading ... ';
 
         this.isNewAssignment = false;
         this._baseUrl = baseUrl;
@@ -53,7 +53,7 @@ export class AssignmentDetailsComponent{
   public getAssignment(id) {
     this._http.get<Assignment>(this._baseUrl + 'api/Assignment/GetAssignment?id=' + id)
       .subscribe(result => {
-        this.Assignment = result;
+        this.assignment = result;
       
 
       }, error => console.error(error));
@@ -61,35 +61,28 @@ export class AssignmentDetailsComponent{
 
   public saveAssignment() {
 
-    //this.Assignment.ownerUserId = this.user.id;
-      this._http.post(this._baseUrl + 'api/Article/', this.Assignment)
+      this._http.post(this._baseUrl + 'api/Assignment/', this.assignment)
         .subscribe((res: Assignment) => {
     
-          this.Assignment = res;
-          this.msg = 'Saved at ' + new Date();
+          this.assignment = res;
         })
   };
 
   // still debug. not working
   public acceptAssignment() {
     if (confirm("Once accepted, you cannot change the assignment. \nAre you sure you want to accept the assignment?")) {
-
-      this._http.get(this._baseUrl + 'api/Assignment/sumbitAssignment')
-        .subscribe((res: Assignment) => {
-          this.Assignment = res;
-          this.msg = 'Submitted at ' + new Date();
-        })
+      this.assignment.acceptDecline = 1;
+      this.saveAssignment();
+      this.msg = 'Saved at ' + new Date();
     }
   }
 
   public rejectAssignment() {
     if (confirm("Once reject, you cannot undo the rejection. \nAre you sure you want to delete the assignment?")) {
 
-      this._http.delete(this._baseUrl + 'api/Assignment/' + this.Assignment.id )
-        .subscribe((res: Assignment) => {
-          this.Assignment = res;
-          this.msg = 'Rejected at ' + new Date();
-        })
+      this.assignment.acceptDecline = -1;
+      this.saveAssignment();
+      this.msg = 'Your request of this article\'s rejection has been processed';
     }
   }
 

@@ -31,7 +31,7 @@ namespace WriteHere2.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAssignment([FromBody] Assignment a)
         {
-
+            a = AssignmentRepository.SaveAssignment(a);
             return Json(a);
         }
 
