@@ -11,7 +11,7 @@
   <h1 *ngIf="isLiked">These are the articles that you have liked.</h1>
 
   <p *ngIf="!isLiked">Welcome to the home page of all the published articles. On this page you will find articles to read.</p>
-  <button (click)="getArticleList()" class="margin">Reload Article List</button><br />
+  <button (click)="getPublishedArticleRows()" class="margin">Reload Article List</button><br />
   <div class="dropdown" *ngIf="!isLiked">
     <button margin-bottom="20px" class="dropbtn">Filter</button>
     <div class="dropdown-content">
@@ -30,20 +30,23 @@
         <th>Genre</th>
         <th>Status</th>
         <th>Views</th>
-        <th>Upvotes</th>
-        <th>Downvotes</th>
+        <th><img src="../_images/VoteUp.png" alt="UpVotes" class="smallimage"></th>
+        <th><img src="../_images/VoteDown.png" alt="DownVotes" class="smallimage"></th>
+        <th><img src="../_images/Comment.png" alt="Comments" class="smallimage"></th>
+
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let a of articles">
         <td><a href="articledetails?id={{ a.id }}">{{ a.title }}</a></td>
         <td>{{a.subtitle }}</td>
-        <td>{{a.authorDisplayName }}</td>
+        <td>{{a.authorPenName }}</td>
         <td>{{a.genre}}</td>
         <td>{{a.articleStatus}}</td>
         <td>{{a.viewedCount}}</td>
         <td>{{a.upvote}}</td>
         <td>{{a.downVote}}</td>
+        <td>{{a.commentCount}}</td>
       </tr>
     </tbody>
   </table>
@@ -54,18 +57,21 @@
         <th>Subtitle</th>
         <th>Author</th>
         <th>Views</th>
-        <th>Upvotes</th>
-        <th>Downvotes</th>
+        <th><img src="../_images/VoteUp.png" alt="UpVotes" class="smallimage"></th>
+        <th><img src="../_images/VoteDown.png" alt="DownVotes" class="smallimage"></th>
+        <th><img src="../_images/Comment.png" alt="Comments" class="smallimage"></th>
+
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let a of articles">
         <td><a href="articledetails?id={{ a.id }}">{{ a.title }}</a></td>
         <td>{{a.subtitle }}</td>
-        <td>{{a.authorDisplayName }}</td>
+        <td>{{a.authorPenName }}</td>
         <td>{{a.viewedCount}}</td>
         <td>{{a.upVote}}</td>
         <td>{{a.downVote}}</td>
+        <td>{{a.commentCount}}</td>
       </tr>
     </tbody>
   </table>

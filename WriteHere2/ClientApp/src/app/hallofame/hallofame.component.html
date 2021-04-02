@@ -1,36 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+  
+ 
 </head>
 <body>
+
   <h1>Hall of Fame</h1>
-  <div class="dropdown">
-    <button margin-bottom="20px" class="dropbtn">Filter</button>
-    <div class="dropdown-content">
-      <button class="dropdownbutton" onclick="alert('Sort by most views averaged by an author')">Most Viewed Author</button>
-      <button class="dropdownbutton" onclick="alert('Sort by most likes on a single article')">Most Liked Author</button>
-      <button class="dropdownbutton" onclick="alert('Sort by most published works by an author')">Most Published Author</button>
-      <button class="dropdownbutton" onclick="alert('Sort by most popularity recently')">Uprising Authors</button>
-      <button class="dropdownbutton" onclick="alert('Sort by most comments that an author has on a single article')">Most Comments </button>
-      <button class="dropdownbutton" onclick="alert('Sort by most dislikes on an article to an author')">Most Disliked Author</button>
-      <button class="dropdownbutton" onclick="alert('Sort by the author who has gotten the most rejected articles')">Most Rejected Author</button>
-    </div>
-  </div>
-  <h4>Most Viewed Author</h4>
-  <br />
-  <h4>Most Liked Author</h4>
-  <br />
-  <h4>Most Published Author</h4>
-  <br />
-  <h4>Most Uprising Authors</h4>
-  <br />
-  <h4>Most Comments for an Author</h4>
-  <br />
-  <h4>Most Disliked Author</h4>
-  <br />
-  <h4>Most Rejected Author</h4>
+
+  <button class="accordion"
+          (click)="setAccordionSign(1)">
+    {{getAccordionSign(1)}} Most Viewed Author
+  </button>
+
+  <table *ngIf="this.accordionExpand[1]" style="width:60%">
+    <thead>
+      <tr>
+        <th width="10%"></th>
+        <th width="30%">Author</th>
+        <th width="30%">Article</th>
+        <th width="20%">Viewed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of hallOfFamePack.mostViewed">
+        <td>{{a.rowNumber}}</td>
+        <td><a href="/userdetails?id={{ a.authorUserId }}&isEditable=false">{{ a.personName }}</a></td>
+        <td><a href="/articledetails?id={{ a.articleId }}&isEditable=false">{{ a.articleTitle }}</a></td>
+        <td>{{a.rankCount}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="accordion"
+          (click)="setAccordionSign(2)">
+    {{getAccordionSign(2)}} Most Liked Author
+  </button>
+  <table *ngIf="this.accordionExpand[2]" style="width:60%">
+    <thead>
+      <tr>
+        <th width="10%"></th>
+        <th width="30%">Author</th>
+        <th width="30%">Article</th>
+        <th width="20%">Liked</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of hallOfFamePack.mostVoteUp">
+        <td>{{a.rowNumber}}</td>
+        <td><a href="/userdetails?id={{ a.authorUserId }}&isEditable=false">{{ a.personName }}</a></td>
+        <td><a href="/articledetails?id={{ a.articleId }}&isEditable=false">{{ a.articleTitle }}</a></td>
+        <td>{{a.rankCount}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="accordion"
+          (click)="setAccordionSign(3)">
+    {{getAccordionSign(3)}} Most Published Author
+  </button>
+  <table *ngIf="this.accordionExpand[3]" style="width:60%">
+    <thead>
+      <tr>
+        <th width="10%"></th>
+        <th width="30%">Author</th>
+        <th width="20%">Published</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of hallOfFamePack.mostPublished">
+        <td>{{a.rowNumber}}</td>
+        <td><a href="/userdetails?id={{ a.authorUserId }}&isEditable=false">{{ a.personName }}</a></td>
+        <td>{{a.rankCount}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="accordion"
+          (click)="setAccordionSign(4)">
+    {{getAccordionSign(4)}} Most Uprising Published Authors --- Not Implemented
+  </button>
+  <table *ngIf="this.accordionExpand[4]" style="width:60%">
+  </table>
+  <button class="accordion"
+          (click)="setAccordionSign(5)">
+    {{getAccordionSign(5)}} Most Comments for an Author
+  </button>
+  <table *ngIf="this.accordionExpand[5]" style="width:60%">
+    <thead>
+      <tr>
+        <th width="10%"></th>
+        <th width="30%">Author</th>
+        <th width="30%">Article</th>
+        <th width="20%">Commented</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of hallOfFamePack.mostCommented">
+        <td>{{a.rowNumber}}</td>
+        <td><a href="/userdetails?id={{ a.authorUserId }}&isEditable=false">{{ a.personName }}</a></td>
+        <td><a href="/articledetails?id={{ a.articleId }}&isEditable=false">{{ a.articleTitle }}</a></td>
+        <td>{{a.rankCount}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="accordion"
+          (click)="setAccordionSign(6)">
+    {{getAccordionSign(6)}} Most Disliked Author
+  </button>
+  <table *ngIf="this.accordionExpand[6]" style="width:60%">
+    <thead>
+      <tr>
+        <th width="10%"></th>
+        <th width="30%">Author</th>
+        <th width="30%">Article</th>
+        <th width="20%">Disliked</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of hallOfFamePack.mostVoteDown">
+        <td>{{a.rowNumber}}</td>
+        <td><a href="/userdetails?id={{ a.authorUserId }}&isEditable=false">{{ a.personName }}</a></td>
+        <td><a href="/articledetails?id={{ a.articleId }}&isEditable=false">{{ a.articleTitle }}</a></td>
+        <td>{{a.rankCount}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="accordion"
+          (click)="setAccordionSign(7)">
+    {{getAccordionSign(7)}} Most Rejected Author
+  </button>
+  <table *ngIf="this.accordionExpand[7]" style="width:60%">
+      <thead>
+        <tr>
+          <th width="10%"></th>
+          <th width="30%">Author</th>
+          <th width="20%">Rejected</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of hallOfFamePack.mostRejected">
+          <td>{{a.rowNumber}}</td>
+          <td><a href="/userdetails?id={{ a.authorUserId }}&isEditable=false">{{ a.personName }}</a></td>
+          <td>{{a.rankCount}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+
 
 </body>
 </html>

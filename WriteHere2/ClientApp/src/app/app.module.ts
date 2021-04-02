@@ -20,13 +20,11 @@ import { LoginComponent } from './login/login.component';
 import { ForgotComponent } from './forgot/forgot.component';
 import { writearticleComponent } from './writearticle/writearticle.component';
 import { AboutUsComponent } from './aboutus/aboutus.component';
-import { MyAccountComponent } from './myaccount/myaccount.component';
 import { MemberdashboardComponent } from './memberdashboard/memberdashboard.component';
 import { PublishedComponent } from './published/published.component';
 import { PublishedTestComponent } from './published/publishedtest.component';
 import { RegisterComponent } from './register/register.component';
 import { UnpublishedtestComponent } from './published/unpublishedtest.component';
-import { MyArticlesComponent } from './myarticles/myarticles.component';
 import { MyAssignmentsComponent } from './myassignments/myassignments.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { FileUploadComponent } from './fileupload/fileupload.component';
@@ -54,9 +52,7 @@ import { UserDetailsComponent } from './userdetails/userdetails.component';
     AboutUsComponent,
     RegisterComponent,
     UnpublishedtestComponent,
-    MyAccountComponent,
     MyAssignmentsComponent,
-    MyArticlesComponent,
     FileUploadComponent,
     ArticleDetailsComponent,
     AssignmentDetailsComponent,
@@ -80,12 +76,10 @@ import { UserDetailsComponent } from './userdetails/userdetails.component';
       { path: 'unpublishedtest', component: UnpublishedtestComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'aboutus', component: AboutUsComponent },
-      { path: 'myaccount', component: MyAccountComponent },
       { path: 'published', component: PublishedComponent },
       { path: 'publishedtest', component: PublishedTestComponent },
       { path: 'memberdashboard', component: MemberdashboardComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'myarticles', component: MyArticlesComponent },
       { path: 'myassignments', component: MyAssignmentsComponent },
       { path: 'articledetails', component: ArticleDetailsComponent },
       { path: 'assignmentdetails', component: AssignmentDetailsComponent },

@@ -6,30 +6,130 @@
 </head>
 <body>
   <h1>User Dashboard</h1>
-  <button (click)="redirectToMyAccount()"
-          class="wide-margin long-button">
-    My Account
+
+
+  <button class="accordion"
+          *ngIf="loginUser.isWriter"
+          (click)="setAccordionSign(1)">
+    {{getAccordionSign(1)}} My Articles
   </button>
-  <button *ngIf="loginUser.isWriter"
-          (click)="redirectToMyArticles()"
-          class="wide-margin long-button">
-    My Articles
+  <div *ngIf="this.accordionExpand[1]">
+   
+    <button class="glyphicon glyphicon-repeat"
+            (click)="getMyArticleRowsByAuthorId()">Reload List</button>
+    <button class="glyphicon glyphicon-pencil"
+            (click)="composeArticle()">Compose</button>
+    <table style="width:90%">
+      <thead>
+        <tr>
+          <th width="30%">Title</th>
+          <th width="10%">Status</th>
+          <th width="10%"><span class="glyphicon glyphicon-folder-open" style="color:cornflowerblue"></span></th>
+          <th width="10%"><img src="../_images/VoteUp.png" alt="UpVotes" class="smallimage"></th>
+          <th width="10%"><img src="../_images/VoteDown.png" alt="DownVotes" class="smallimage"></th>
+          <th width="10%"><img src="../_images/Comment.png" alt="Comments" class="smallimage"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of this.dashboardPack.myArticles">
+          <td>
+            <a href="/articledetails?id={{ a.id }}&isEditable=true">{{ a.title }}</a>
+          </td>
+          <td>{{a.articleStatus}}</td>
+          <td>{{a.viewedCount}}</td>
+          <td>{{a.upVote}}</td>
+          <td>{{a.downVote}}</td>
+          <td>{{a.commentCount}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="accordion"
+          *ngIf="loginUser.isReader"
+          (click)="setAccordionSign(2)">
+    {{getAccordionSign(2)}} My Liked Articles
   </button>
-  <button *ngIf="loginUser.isReader"
-          (click)="redirectToPublished()"
-          class="wide-margin long-button">
-    My Liked Articles
+  <div *ngIf="this.accordionExpand[2]">
+    <table style="width:90%">
+      <thead>
+        <tr>
+          <th width="30%">Title</th>
+          <th width="30%">Pen Name</th>
+          <th width="10%">Status</th>
+          <th width="10%"><span class="glyphicon glyphicon-folder-open" style="color:cornflowerblue"></span></th>
+          <th width="10%"><img src="../_images/VoteUp.png" alt="UpVotes" class="smallimage"></th>
+          <th width="10%"><img src="../_images/VoteDown.png" alt="DownVotes" class="smallimage"></th>
+          <th width="10%"><img src="../_images/Comment.png" alt="Comments" class="smallimage"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of this.dashboardPack.myLikedArticles">
+          <td>
+            <a href="/articledetails?id={{ a.id }}&isEditable=true">{{ a.title }}</a>
+          </td>
+          <td>
+            <div *ngIf="a.authorIsPublicProfile || this.isAdmin">
+              <a href="/userdetails?id={{ a.authorUserId }}&isEditable=true">{{ a.authorPenName }}</a>
+            </div>
+            <div *ngIf="!(a.authorIsPublicProfile || this.isAdmin)">
+              {{ a.authorPenName }}
+            </div>
+          </td>
+
+          <td>{{a.articleStatus}}</td>
+          <td>{{a.viewedCount}}</td>
+          <td>{{a.upVote}}</td>
+          <td>{{a.downVote}}</td>
+          <td>{{a.commentCount}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="accordion"
+          *ngIf="loginUser.isEditor"
+          (click)="setAccordionSign(3)">
+    {{getAccordionSign(3)}} My Assignments to edit
   </button>
-  <button *ngIf="loginUser.isEditor"
-          (click)="redirectToMyAssignments()"
-          class="wide-margin long-button">
+  <div *ngIf="this.accordionExpand[3]">
     My Assignments to edit
+  </div>
+
+  <button class="accordion"
+          *ngIf="loginUser.isTutor"
+          (click)="setAccordionSign(4)">
+    {{getAccordionSign(4)}} My Assignments to tutor
   </button>
-  <button *ngIf="loginUser.isTutor "
-          (click)="redirectToMyAssignments()"
-          class="wide-margin long-button">
+  <div *ngIf="this.accordionExpand[4]">
     My Assignments to tutor
+  </div>
+
+  <button class="accordion"
+          *ngIf="loginUser.isTutor"
+          (click)="setAccordionSign(5)">
+    {{getAccordionSign(5)}} My requests of tutoring
   </button>
+  <div *ngIf="this.accordionExpand[5]">
+    My requests of tutoring
+  </div>
+
+  <button class="accordion"
+          *ngIf="loginUser.isDrawer"
+          (click)="setAccordionSign(6)">
+    {{getAccordionSign(6)}} My Assignments to illustrate
+  </button>
+  <div *ngIf="this.accordionExpand[6]">
+    My Assignments to illustrate
+  </div>
+
+  <button class="accordion"
+          *ngIf="loginUser.isDrawer"
+          (click)="setAccordionSign(7)">
+    {{getAccordionSign(7)}} My requests of illustrating
+  </button>
+  <div *ngIf="this.accordionExpand[7]">
+    My requests of illustrating
+  </div>
+
   <button *ngIf="loginUser.isDrawer "
           (click)="redirectToMyAssignments()"
           class="wide-margin long-button">

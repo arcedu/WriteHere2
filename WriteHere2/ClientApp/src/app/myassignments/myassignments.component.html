@@ -22,7 +22,7 @@
       <tr *ngFor="let a of assignments">
         <td><a href="/assignmentdetails?id={{ a.id }}&isEditable=true">{{ a.title }}</a></td>
         <td>{{ a.subtitle }}</td>
-        <td>{{a.authorDisplayName }}</td>
+        <td>{{a.authorPenName }}</td>
         <td>{{a.articleStatus}}</td>
       </tr>
     </tbody>

@@ -89,7 +89,7 @@ namespace DataAccess
             var a = new Assignment();
             // get the results of each column
             a.Id = (Guid)rdr["ID"];
-            a.AuthorDisplayName = (rdr["AuthorDisplayName"] == DBNull.Value) ? string.Empty : rdr["AuthorDisplayName"].ToString();
+            a.AuthorPenName = (rdr["AuthorPenName"] == DBNull.Value) ? string.Empty : rdr["AuthorDisplayName"].ToString();
             a.Title = (string)rdr["Title"];
             a.Subtitle = (rdr["Subtitle"] == DBNull.Value) ? string.Empty : rdr["Subtitle"].ToString();
             a.ArticleStatus = (rdr["ArticleStatus"] == DBNull.Value) ? string.Empty : rdr["ArticleStatus"].ToString();

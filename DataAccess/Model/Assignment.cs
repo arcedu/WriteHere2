@@ -11,7 +11,7 @@ namespace DataAccess
         public string Title;
         public string Subtitle;
         public string ArticleStatus;
-        public string AuthorDisplayName;
+        public string AuthorPenName;
         public DateTime AssignedDate;
         public Guid AuthorUserId;
         public Guid EditorUserId;

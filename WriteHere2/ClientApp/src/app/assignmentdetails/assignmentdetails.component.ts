@@ -61,7 +61,7 @@ export class AssignmentDetailsComponent{
 
   public saveAssignment() {
 
-    //this.Assignment.ownerUserId = this.user.id;
+    //this.Assignment.authorUserId = this.user.id;
       this._http.post(this._baseUrl + 'api/Article/', this.Assignment)
         .subscribe((res: Assignment) => {
     

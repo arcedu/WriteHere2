@@ -4,7 +4,7 @@
 
 <p *ngIf="!forecasts"><em>Loading...</em></p>
 
-<button (click)="getArticleListByQuery()">Get Article by Query</button>
+<button (click)="getPublishedArticleRowsByQuery()">Get Article by Query</button>
 <button (click)="getArticle()">Get Article </button>
 
 <table class='table' *ngIf="forecasts">
@@ -26,8 +26,8 @@
     <tr *ngFor="let a of articles">
       <td>{{ a.title }}</td>
       <td>{{ a.subtitle }}</td>
-      <td>{{ a.authorDisplayName }}</td>
-      <td>{{ a.firstName }}</td>
+     
+      <td>{{ a.authorPenName }}</td>
     </tr>
     <tr *ngFor="let u of users">
       <td>{{ u.username }}</td>

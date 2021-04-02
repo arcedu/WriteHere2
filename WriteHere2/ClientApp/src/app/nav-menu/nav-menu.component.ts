@@ -8,7 +8,7 @@ import { User } from '../types';
 })
 export class NavMenuComponent {
   public UserName: string
-
+  
   constructor() {
     this.UserName = this.getUsername();
   }
@@ -35,14 +35,25 @@ export class NavMenuComponent {
   public isLoggedIn() {
     return this.getUser() != null;
   }
-
+  public isLoggedInWriter() {
+    var user = this.getUser();
+    return user != null && (user.isWriter || user.isAdmin);
+  }
+ 
   public getUsername() {
     var user = this.getUser();
     if (user == null) { return 'guest'; }
     else {
       return user.userName;
     } 
-     
-
   }
+  public redirectToNewArticle() {
+   
+    location.replace("/articledetails?isEdit=true" );
+  }
+  public redirectToUserDetail() {
+  
+    location.replace("/userdetails?id=" + this.getUser().id);
+  }
+
 }

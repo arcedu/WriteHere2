@@ -7,60 +7,97 @@
   <title></title>
 </head>
 <body>
-  <div *ngIf="isEditor || isWriter">
-    <table width="90%">
-      <tr>
-        <td width="70%">
-          <label for="msg" class="msggreen">{{msg}}</label>
-        </td>
-        <!--Editor's button bar-->
-        <td width="25%" align="right">
-          <img *ngIf="isEditor || isWriter"
+
+  <!--writer and edictor action buttons-->
+  <table width="90%">
+    <tr>
+      <td width="60%">
+        <label for="msg" class="msggreen">{{msg}}</label>
+      </td>
+      <!--writer and Editor's button bar-->
+      <td width="40%" align="right">
+        
+        <span style="float:left;">
+          <span class='glyphicon glyphicon-folder-open' style="color:cornflowerblue"> {{this.article.commentCount}}  </span> &nbsp;&nbsp;
+          <button *ngIf=" !this.isWriter && this.article.viewerVote != 1 "
+                  class='glyphicon glyphicon-thumbs-up' style="color:cornflowerblue"
+                  (click)="this.vote(1);"></button>
+          <button *ngIf="this.article.viewerVote == 1 "
+                  class='glyphicon glyphicon-thumbs-up' style="background:cornflowerblue"></button>
+          {{this.article.upVote}}&nbsp;&nbsp;
+          <button *ngIf="!this.isWriter  && this.article.viewerVote != -1"
+                  class='glyphicon glyphicon-thumbs-down' style="color:cornflowerblue"
+                  (click)="this.vote(-1);"></button>
+          <button *ngIf="this.article.viewerVote == -1"
+                  class='glyphicon glyphicon-thumbs-down' style="background:cornflowerblue"></button>
+          {{this.article.downVote}} &nbsp;&nbsp;
+        </span>
+          <img *ngIf=" this.isEditor || this.isWriter"
+               title="Save"
                class="actionbuttonimage"
                src="../_images/Save.png"
-               alt="Save Changes"
+               alt="Save"
                (click)="saveArticle()">
-          <img *ngIf="isEditor || isWriter"
+
+          <img *ngIf="(this.isEditor ||  this.isWriter ) && this.article.id !== undefined"
+               title="Submit"
                class="actionbuttonimage"
                src="../_images/Submit.png"
                alt="Submit"
                (click)="submitArticle()">
-          <img *ngIf="isWriter && !isNewArticle"
+          <img *ngIf=" this.isWriter && !isNewArticle"
+               title="Delete"
                class="actionbuttonimage"
                src="../_images/Delete.png"
                alt="Delete"
                (click)="deleteArticle()">
-          
-          <img *ngIf="isEditor && !isNewArticle"
+
+          <img *ngIf=" this.isEditor && !isNewArticle"
+               title="Reject"
                class="actionbuttonimage"
                src="../_images/Reject.png"
                alt="Reject"
                (click)="rejectArticle()">
-          <img *ngIf="isEditor && !isNewArticle"
+          <img *ngIf=" this.isEditor && !isNewArticle"
+               title="Publish"
                class="actionbuttonimage"
                src="../_images/Publish.png"
                alt="Publish"
                (click)="publishArticle()">
-        </td>
-      </tr>
-    </table>
-
+</td>
+    </tr>
+  </table>
+  <!--Article facts-->
+  <button class="accordion"
+          (click)="setAccordionSign(1)">
+    {{getAccordionSign(1)}} Article Facts
+  </button>
+  <div *ngIf="this.accordionExpand[1]">
     <table>
       <tr>
         <td>
           <label for="Title">Title</label><br />
-          <textarea id="Title" name="Title" rows="1" cols="50" style=" margin-right: 10px;"[(ngModel)]='article.title'></textarea>
+          <textarea id="Title" name="Title" rows="1" cols="50" style=" margin-right: 10px;" [(ngModel)]='article.title'></textarea>
         </td>
+        <td>
+          <label for="Genre">Genre</label>
 
+          <select [(ngModel)]='article.genreId'>
+            <option *ngFor="let x of this.genres" value="{{x.value }}">
+              {{x.text}}
+            </option>
+          </select>
+        </td>
       </tr>
       <tr>
         <td>
           <label for="Subtitle">Subtitle</label><br />
-          <textarea id="Subtitle" name="Subtitle" rows="1" cols="50" style=" margin-right: 10px;"[(ngModel)]='article.subtitle'></textarea>
+          <textarea id="Subtitle" name="Subtitle" rows="1" cols="50" style=" margin-right: 10px;"
+                    [(ngModel)]='article.subtitle'></textarea>
         </td>
         <td>
-          <label for="AuthorDisplayName">Pen name</label><br />
-          <textarea id="AuthorDisplayName" name="AuthorDisplayName" rows="1" cols="20"[(ngModel)]='article.authorDisplayName'></textarea>
+          <label for="Genre">Book cover</label>
+          image uploader here.
         </td>
       </tr>
 
@@ -69,27 +106,65 @@
     <label for="Summary">Summary</label>
     <br />
     <textarea id="Summary" name="Summary" rows="2" cols="100" [(ngModel)]='article.summary'></textarea>
-    <br />
-    <label for="Content">Content</label>
-    <br />
-    <textarea id="Content" name="Content" rows="18" cols="100" [(ngModel)]='article.content'></textarea>
-    <br />
-    <div *ngIf="!isEditor">
-      <label for="Content">Editor Review Notes</label>
-      <br />
-      <textarea id="EditorReviewNote" name="EditorReviewNote" rows="2" cols="100" [(ngModel)]='article.editorReviewNote'></textarea>
-      <br />
+  </div>
+
+  <button class="accordion"
+          (click)="setAccordionSign(2)">
+    {{getAccordionSign(2)}} Content
+  </button>
+  <textarea id="Content" name="Content" rows="18" cols="100"
+            *ngIf="this.accordionExpand[2]"
+            [(ngModel)]='article.content'></textarea>
+
+  <button class="accordion"
+          (click)="setAccordionSign(3)"
+          *ngIf=" (this.isWriter && article.editorReviewNote !== '' ) || this.isEditor ">
+    {{getAccordionSign(3)}} Editor Review Notes  from [{{ this.article.editorUserName}}]
+  </button>
+  <textarea id="EditorReviewNote"
+            name="EditorReviewNote"
+            *ngIf="this.accordionExpand[3]"
+            [disabled]="!this.isEditor"
+            rows="2" cols="100"
+            [(ngModel)]="article.editorReviewNote"></textarea>
+  
+  <!--readonly part-->
+  <div *ngIf="! this.isEditor && ! this.isWriter && this.isReader">
+
+    <button class="accordion"
+            (click)="setAccordionSign(5)">
+      {{getAccordionSign(5)}} {{ article.title }} by {{ article.authorPenName }}
+    </button>
+    <div *ngIf="this.accordionExpand[5]">
+    
+      <h2>{{ article.title }}</h2>
+      <h3>{{ article.subtitle}}</h3>
+      <a *ngIf="article.authorIsPublicProfile"
+         href="/userdetails?id={{ article.authorUserId }}&isEditable=false">{{ article.authorPenName }}</a>
+      <span *ngIf="!article.authorIsPublicProfile">{{ article.authorPenName }}</span>
+      <p>{{article.content}}</p>
+    </div>
+
+    <!--Comments open for all readers/Writers-->
+    <button class="accordion"
+            (click)="setAccordionSign(6)">
+      {{getAccordionSign(6)}} Comments
+    </button>
+    <div *ngIf="this.accordionExpand[6]">
+      <span style="float:right;">
+        <button class='glyphicon glyphicon-share' (click)="this.saveComment();"></button>
+        <button class='glyphicon glyphicon-refresh' (click)="this.getComments();"></button>
+      </span><br>
+      <textarea id="NewComment" name="NewComment" rows="2" cols="100"
+                [(ngModel)]='this.newComment'></textarea>
+      <ul>
+        <li *ngFor="let ac of article.comments">
+          <span style="color:darkblue;font-size:8px">
+            {{ac.commentDate}}  {{ac.commentOwnerPenName}}:
+          </span> {{ac.comment}}
+        </li>
+      </ul>
     </div>
   </div>
-
-  <div *ngIf="!isEditor && !isWriter">
-    <h1>{{ article.title }}</h1>
-    <h3>{{ article.subtitle}}</h3>
-    <p>{{article.authorDisplayName}}</p>
-    <p>{{article.content}}</p>
-  </div>
-
-
-
 </body>
 </html>

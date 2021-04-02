@@ -5,27 +5,261 @@
   <title></title>
 </head>
 <body>
-  <h1>Current account information.</h1>
-  <form>
-    <label for="firstnametest">{{user.firstName}}</label><br>
-    <input type="text" id="firstnametest" name="firstnametest"><br>
-    <label for="lastnametest">{{user.lastName}}</label><br>
-    <input type="text" id="lastnametest" name="lastnametest"><br>
-    <label for="emailtest">{{user.email}}</label><br>
-    <input type="email" id="emailtest" name="emailtest"><br>
-    <label for="gradetest">{{user.grade}}</label><br>
-    <input type="text" id="gradetest" name="gradetest"><br>
-    <p>(Please note that your submitted articles will be judged according to the standards of your listed grade level. Grade levels will automatically update according to school years.)</p>
-    <label for="pennametest">{{user.userName}}</label><br>
-    <input type="text" id="pennametest" name="pennametest"><br>
-    <label for="pwdtest">{{user.loginPassword}}</label><br>
-    <input type="password" id="pwdtest" name="pwdtest">
-  </form>
-  <br />
-  <input type="checkbox" id="hallofame" name="hallofame" value="Hallofame">
-  <label for="hallofame"> Include me in the Hall of Fame</label><br>
-  <button (click)="redirectTo()" class="margin">Save Changes</button>
 
+  <button *ngIf="this.isEditable"
+          class="accordion"
+          (click)="setAccordionSign(1)">
+    {{this.getAccordionSign(1)}} Login and Public Settings
+  </button>
+
+  <table *ngIf="this.accordionExpand[1]"
+         style="border-spacing: 10px;border-collapse: separate;">
+    <tr>
+      <td width="20%" style="text-align:right">
+        <label for="userName">Login Username</label>
+      </td>
+      <td width="40%">
+        <input type="text" id="username"
+               name="username"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.username">
+      </td>
+      <td>
+        <button (click)="updateUserName()">
+          Change username
+        </button>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="text-align:right">
+        <label for="pwd">Password</label>
+      </td>
+      <td>
+        <input type="password" id="pwd1" name="pwd1"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="password1">
+        <span _ngcontent-c1="" class="glyphicon glyphicon-eye-open"></span>
+        <span _ngcontent-c1="" class="glyphicon glyphicon-eye-close"></span>
+      </td>
+
+    </tr>
+    <tr>
+      <td style="text-align:right">
+        Type password again
+      </td>
+      <td>
+        <input type="password" id="pwd2" name="pwd2"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="password2">
+        <span _ngcontent-c1="" class="glyphicon glyphicon-eye-open"></span>
+        <span _ngcontent-c1="" class="glyphicon glyphicon-eye-close"></span>
+      </td>
+      <td>
+        <button (click)="updatePassword()">
+          Change password
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:right">
+        <label for="penname">Pen Name</label>
+      </td>
+      <td>
+        <input type="text" id="penName" name="penName"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.penName">
+    </tr>
+    <tr>
+
+      <td colSpan="2">
+        <input type="checkbox" id="showProfile"
+               name="showProfile"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.showProfile">
+        <label> Show my profile to public</label> <br>
+        <input type="checkbox" id="showInHall"
+               name="showInHall"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.showInHall">
+        <label> Include me in the Hall of Fame</label>
+      </td>
+      <td>
+        <button (click)="updateVisibility()">
+          Change visibility
+        </button>
+      </td>
+    </tr>
+  </table>
+  <button class="accordion"
+          (click)="setAccordionSign(2)">
+    {{getAccordionSign(2)}} Personal Profile
+  </button>
+  <table *ngIf="this.accordionExpand[2]"
+         style="border-spacing: 10px;border-collapse: separate;">
+    <tr>
+      <td width="20%" style="text-align:right">
+        <label for="firstname">First Name</label>
+      </td>
+      <td width="40%">
+        <input type="text" id="firstname"
+               name="firstname"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.firstName">
+      </td>
+      <td>
+        <input type="checkbox" id="showName"
+               name="showName"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.showName">Show Name
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:right">
+        <label for="lastname">Last Name</label>
+      </td>
+      <td>
+        <input type="text" id="lastname"
+               name="lastname"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.lastName">
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:right">
+        <label for="email">Email</label>
+      </td>
+      <td>
+        <input type="email" id="email" name="email"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.email">
+      </td>
+      <td>
+        <input type="checkbox" id="showEmail"
+               name="showEmail"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.showEmail">Show Email
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:right">
+        <label for="grade">Grade</label>
+      </td>
+      <td>
+        <input type="text" id="grade" name="grade"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.grade">
+      </td>
+      <td>
+        <input type="checkbox" id="showGrade"
+               name="showGrade"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.showGrade">Show Grade
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        (Please note that your submitted articles will be judged according to the standards of your listed grade level. Grade levels will automatically update according to school years.)
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:right">
+        <label for="grade">Country</label>
+      </td>
+      <td>
+        <input type="text" id="country" name="country"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.country">
+      </td>
+      <td>
+        <input type="checkbox" id="showCountry"
+               name="showCountry"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.showCountry">Show Country
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:right">
+        <label for="grade">State/Prov</label>
+      </td>
+      <td>
+        <input type="text" id="state" name="state"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.state">
+      </td>
+      <td>
+        <input type="checkbox" id="showState"
+               name="showState"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.showState">Show State
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <button (click)="SaveProfile()" class="margin">Save Profile</button>
+      </td>
+    </tr>
+
+  </table>
+  <button class="accordion"
+          *ngIf=" this.loginUser.isAdmin"
+          (click)="setAccordionSign(3)">
+    {{getAccordionSign(3)}} Roles
+  </button>
+  <table *ngIf="this.accordionExpand[3]"
+         style="border-spacing: 10px;border-collapse: separate;">
+    <tr>
+      <td>
+        <input type="checkbox" id="isAdmin"
+               name="isAdmin"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.isAdmin">Admin
+      </td>
+      <td>
+        <input type="checkbox" id="isReader"
+               name="isReader"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.isReader">Reader
+      </td>
+      <td>
+        <input type="checkbox" id="isWriter"
+               name="isWriter"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.isWriter">Writer
+      </td>
+      <td>
+        <input type="checkbox" id="isEditor"
+               name="isEditor"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.isEditor">Editor
+      </td>
+
+      <td>
+        <input type="checkbox" id="isAuditor"
+               name="isAuditor"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.isAuditor">Auditor
+      </td>
+      <td>
+        <input type="checkbox" id="isDrawer"
+               name="isDrawer"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.isDrawer">Drawer
+      </td>
+      <td>
+        <input type="checkbox" id="isTutor"
+               name="isTutor"
+               [disabled]="!this.isEditable"
+               [(ngModel)]="user.isTutor">Tutor
+      </td>
+
+    </tr>
+    <tr>
+      <td colspan="3">
+        <button (click)="SaveRole()" class="margin">Save Roles</button>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
 
