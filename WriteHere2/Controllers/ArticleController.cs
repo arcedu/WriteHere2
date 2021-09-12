@@ -50,26 +50,11 @@ namespace WriteHere2.Controllers
             return pack;
         }
 
-
-
         [HttpGet("[action]")]
-        public DashboardPack GetDashBoardPack(Guid loginId )
+        public Article GetArticle(Guid id, Guid byId)
         {
-            var pack = new DashboardPack();
 
-            pack.myArticles = ArticleRepository.GetArticleRowList(new ArticleQuery { AuthorUserId = loginId });
-            pack.myLikedArticles = ArticleRepository.GetArticleRowList(new ArticleQuery { VotedUpByUserId = loginId });
-            pack.myArticlesToEdit = ArticleRepository.GetArticleRowList(new ArticleQuery { EditorUserId = loginId });
-
-            return pack;
-        }
-
-
-        [HttpGet("[action]")]
-    public Article GetArticle(Guid id, Guid byId)
-    {
-
-        var a = ArticleRepository.GetArticle(id);
+            var a = ArticleRepository.GetArticle(id);
             if (a == null)
             {
                 a = new Article
@@ -78,23 +63,25 @@ namespace WriteHere2.Controllers
                     Title = "ArticleTitle"
                 };
             }
-            else 
+            else
             {
                 // load comments
                 var ac = ArticleCommentRepository.GetArticleCommentListByQuery
-                    (new ArticleCommentQuery {ArticleId = id });
+                    (new ArticleCommentQuery { ArticleId = id });
                 a.Comments = ac;
 
                 // load viewer's vote
+                a.ViewerVote = ArticleVoteRepository.GetArticleVote(new ArticleVoteQuery() { UserId = byId, ArticleId = id });
             }
 
+            // increate the viewCount when the viewer is not the author
             if (a.AuthorUserId != byId)
-        {
-            ArticleRepository.IncreaseArticleViewedCount(id);
-            a.ViewedCount++;
+            {
+                ArticleRepository.IncreaseArticleViewedCount(id);
+                a.ViewedCount++;
+            }
+            return a;
         }
-        return a;
-    }
 
 
         [HttpGet("[action]")]

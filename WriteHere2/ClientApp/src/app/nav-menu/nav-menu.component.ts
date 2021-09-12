@@ -39,7 +39,10 @@ export class NavMenuComponent {
     var user = this.getUser();
     return user != null && (user.isWriter || user.isAdmin);
   }
- 
+  public isLoggedInAdmin() {
+    var user = this.getUser();
+    return user != null && (user.isAdmin);
+  }
   public getUsername() {
     var user = this.getUser();
     if (user == null) { return 'guest'; }

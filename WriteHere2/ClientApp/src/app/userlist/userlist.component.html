@@ -10,17 +10,16 @@
   <table style="width:90%">
     <thead>
       <tr>
-        <th width="10%">userName</th>
-    
-        <th width="10%">firstName</th>
-        <th width="10%">lastName</th>
-        <th width="10%">grade</th>
-        <th width="10%">country</th>
+        <th width="10%">Username</th>
+        <th width="10%">First Name</th>
+        <th width="10%">LastName</th>
+        <th width="10%">Grade</th>
+        <th width="10%">Country</th>
       </tr>
     </thead>
     <tbody> 
       <tr *ngFor="let user of userlist">
-        <td><a href="userdetails.component">{{ user.userName }}</a></td>
+        <td><a href="userdetails?id={{ user.id }}">{{ user.userName }}</a></td>
       
         <td>{{user.firstName}}</td>
         <td>{{user.lastName}}</td>

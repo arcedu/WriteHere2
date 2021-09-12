@@ -6,8 +6,7 @@ namespace DataAccess
 {
     public static class ArticleVoteRepository
     {
-       
-        public static ArticleVote SaveArticleVote(ArticleVote a)
+        public static void SaveArticleVote(ArticleVote a)
         {
             // When a.Id is a Guid.Null, this is a create. else this is a update
             SqlConnection conn = new SqlConnection(Const.ConnString);
@@ -15,19 +14,15 @@ namespace DataAccess
             {
                 CommandType = System.Data.CommandType.StoredProcedure
             };
-
-            cmd.Parameters.AddWithValue("@id", a.Id);
             cmd.Parameters.AddWithValue("@Vote", a.Vote);
-            cmd.Parameters.AddWithValue("@VoteOwnerID", a.VoteOwnerId);
+            cmd.Parameters.AddWithValue("@UserID", a.UserId);
             cmd.Parameters.AddWithValue("@articleID", a.ArticleId);
-            cmd.Parameters.AddWithValue("@showOwner", a.ShowOwner);
-
-
+           
             try
             {
                 conn.Open();
-                var retId = (Guid)cmd.ExecuteScalar();
-                a.Id = retId;
+                cmd.ExecuteScalar();
+                
             }
             catch (Exception ex)
             {
@@ -37,37 +32,46 @@ namespace DataAccess
             {
                 if (conn != null) { conn.Close(); }
             }
-            return a;
+            return ;
         }
 
 
-        public static void DelteArticleVote(Guid id)
+        public static void DelteArticleVote(ArticleVoteQuery a)
         {
-            if (id == null || id == Guid.Empty) return;
-
-            SqlConnection conn = new SqlConnection(Const.ConnString);
-            var cmd = new SqlCommand("DELETE FROM ArticleVote WHERE id ='" + id + "'", conn);
-
-            try
+            if (a.UserId.HasValue || a.ArticleId.HasValue)
             {
-                conn.Open();
-                cmd.ExecuteScalar();
-            }
-            finally
-            {
-                if (conn != null) { conn.Close(); }
-            }
+                var sql = "DELETE FROM ArticleVote WHERE ";
+                if (a.UserId.HasValue && a.ArticleId.HasValue)
+                { sql += "UserId = '" + a.UserId + "' AND ArticleId = '" + a.ArticleId + "'"; }
+                else
+                {
+                    if (a.UserId.HasValue)
+                    { sql += "UserId = '" + a.UserId + "'"; }
+                    if (a.ArticleId.HasValue)
+                    { sql += "ArticleId = '" + a.ArticleId + "'"; }
+                }
+                    
+               SqlConnection conn = new SqlConnection(Const.ConnString);
+                var cmd = new SqlCommand(sql, conn);
 
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteScalar();
+                }
+                finally
+                {
+                    if (conn != null) { conn.Close(); }
+                }
+            }
             return;
         }
 
-        public static ArticleVote GetArticleVote(Guid id)
+        public static short GetArticleVote(ArticleVoteQuery a)
         {
             SqlDataReader rdr = null;
             SqlConnection conn = new SqlConnection(Const.ConnString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.vwArticleVoteList WHERE ID ='" + id + "' ORDER BY VoteDateTime Desc", conn);
-            ArticleVote a = null;
-
+            SqlCommand cmd = new SqlCommand("SELECT * FROM dbo.ArticleVote WHERE UserId = '" + a.UserId + "' AND ArticleId = '" + a.ArticleId + "'", conn);
             try
             {
                 conn.Open();
@@ -75,7 +79,8 @@ namespace DataAccess
 
                 if (rdr.Read())
                 {
-                   a = ReadRow(rdr);
+                    var vote = (rdr["Vote"] == DBNull.Value) ?(short)0 : (short)rdr["Vote"];
+                    return vote;
                 }
             }
             finally
@@ -83,61 +88,9 @@ namespace DataAccess
                 if (rdr != null) { rdr.Close(); }
                 if (conn != null) { conn.Close(); }
             }
-            return a;
+            return 0;
         }
 
-        public static List<ArticleVote> GetArticleVoteListByQuery(ArticleVoteQuery  query)
-        {
-            var sql = "SELECT * FROM dbo.[vwArticleVoteList]";
-            if (query.UserId.HasValue
-                  || query.ArticleId.HasValue)
-             {
-                sql += " WHERE ";
-                if (query.UserId.HasValue) { sql += " VoteOwnerID = @u"; }
-                if (query.ArticleId.HasValue) { sql += " ArticleId = @ar"; }
-             }
-
-            SqlDataReader rdr = null;
-            SqlConnection conn = new SqlConnection(Const.ConnString);
-            SqlCommand cmd = new SqlCommand(sql, conn);
-            if (query.UserId.HasValue) { cmd.Parameters.AddWithValue("@u", query.UserId); }
-            if (query.ArticleId.HasValue) { cmd.Parameters.AddWithValue("@ar", query.ArticleId); }
-
-            var list = new List<ArticleVote>();
-            try
-            {
-                conn.Open();
-                rdr = cmd.ExecuteReader();
-
-                while (rdr.Read())
-                {
-                    var a = ReadRow(rdr);
-                    list.Add(a);
-                }
-            }
-            finally
-            {
-                if (rdr != null) { rdr.Close(); }
-                if (conn != null) { conn.Close(); }
-            }
-            return list;
-        }
-       
-     
-        private static ArticleVote ReadRow(SqlDataReader rdr)
-        {
-            var a = new ArticleVote();
-            // get the results of each column
-            a.Id = (Guid)rdr["ID"];
-            a.Vote = (rdr["Vote"] == DBNull.Value) ? string.Empty : rdr["Vote"].ToString();
-            a.VoteOwnerId = (Guid)rdr["VoteOwnerId"];
-            a.VoteOwnerPenName = (rdr["VoteOwnerPenName"] == DBNull.Value) ? string.Empty : rdr["VoteOwnerPenName"].ToString();
-            a.ArticleTitle = (rdr["ArticleTitle"] == DBNull.Value) ? string.Empty : rdr["ArticleTitle"].ToString();
-            a.ShowOwner = (bool)rdr["ShowOwner"];
-            a.VoteOwnerShowProfile = (bool) rdr["VoteOwnerShowProfile"];
-            a.VoteDate = (rdr["VoteDateTime"] == DBNull.Value) ? string.Empty : ((DateTime)rdr["VoteDateTime"]).ToString("yyyy-MM-dd");
-            return a;
-        }
     }
 }
 

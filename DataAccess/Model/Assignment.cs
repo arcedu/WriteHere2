@@ -1,10 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess
 {
 
+    // must be consistant to [LUAssignPurpose]
+    public enum AssignPurpose
+    {
+        ForEditor = 1,
+        ForTutor = 3,
+        ForDrawer = 5,
+    }
+    public class AssignmentRequest
+    {
+        public Guid ArticleId;
+        public bool RequestEditor;
+        public bool RequestDrawer;
+        public bool RequestTutor;
+    }
     public class Assignment
     {
         public Guid Id;
@@ -20,5 +32,6 @@ namespace DataAccess
         public string Summary;
         public string EditorReasonNote;
         public short AcceptDecline;
+        public AssignPurpose AssignPurpose;
     }
 }

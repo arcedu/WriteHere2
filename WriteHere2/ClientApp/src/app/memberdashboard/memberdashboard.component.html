@@ -7,31 +7,35 @@
 <body>
   <h1>User Dashboard</h1>
 
-
+  <!--1 Writer's My Articles-->
   <button class="accordion"
           *ngIf="loginUser.isWriter"
           (click)="setAccordionSign(1)">
     {{getAccordionSign(1)}} My Articles
   </button>
   <div *ngIf="this.accordionExpand[1]">
-   
+
     <button class="glyphicon glyphicon-repeat"
-            (click)="getMyArticleRowsByAuthorId()">Reload List</button>
+            (click)="getMyArticleRowsByAuthorId()">
+      Reload List
+    </button>
     <button class="glyphicon glyphicon-pencil"
-            (click)="composeArticle()">Compose</button>
+            (click)="composeArticle()">
+      Compose
+    </button>
     <table style="width:90%">
       <thead>
         <tr>
           <th width="30%">Title</th>
           <th width="10%">Status</th>
-          <th width="10%"><span class="glyphicon glyphicon-folder-open" style="color:cornflowerblue"></span></th>
+          <th width="10%"><span class="glyphicon glyphicon-file" style="color:cornflowerblue"></span></th>
           <th width="10%"><img src="../_images/VoteUp.png" alt="UpVotes" class="smallimage"></th>
           <th width="10%"><img src="../_images/VoteDown.png" alt="DownVotes" class="smallimage"></th>
           <th width="10%"><img src="../_images/Comment.png" alt="Comments" class="smallimage"></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let a of this.dashboardPack.myArticles">
+        <tr *ngFor="let a of this.dashboardPack.writerArticles">
           <td>
             <a href="/articledetails?id={{ a.id }}&isEditable=true">{{ a.title }}</a>
           </td>
@@ -44,6 +48,7 @@
       </tbody>
     </table>
   </div>
+  <!--2 Reader's My Liked Articles-->
   <button class="accordion"
           *ngIf="loginUser.isReader"
           (click)="setAccordionSign(2)">
@@ -55,11 +60,164 @@
         <tr>
           <th width="30%">Title</th>
           <th width="30%">Pen Name</th>
-          <th width="10%">Status</th>
-          <th width="10%"><span class="glyphicon glyphicon-folder-open" style="color:cornflowerblue"></span></th>
-          <th width="10%"><img src="../_images/VoteUp.png" alt="UpVotes" class="smallimage"></th>
-          <th width="10%"><img src="../_images/VoteDown.png" alt="DownVotes" class="smallimage"></th>
-          <th width="10%"><img src="../_images/Comment.png" alt="Comments" class="smallimage"></th>
+          <th width="15%">Status</th>
+          <th width="6%"><span class="glyphicon glyphicon-file" style="color:cornflowerblue"></span></th>
+          <th width="6%"><img src="../_images/VoteUp.png" alt="UpVotes" class="smallimage"></th>
+          <th width="6%"><img src="../_images/VoteDown.png" alt="DownVotes" class="smallimage"></th>
+          <th width="6%"><img src="../_images/Comment.png" alt="Comments" class="smallimage"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of this.dashboardPack.readerLikedArticles">
+          <td>
+            <a href="/articledetails?id={{ a.id }}&isEditable=true">{{ a.title }}</a>
+          </td>
+          <td>
+            <div *ngIf="a.authorIsPublicProfile || this.isAdmin">
+              <a href="/userdetails?id={{ a.authorUserId }}&isEditable=true">{{ a.authorPenName }}</a>
+            </div>
+            <div *ngIf="!(a.authorIsPublicProfile || this.isAdmin)">
+              {{ a.authorPenName }}
+            </div>
+          </td>
+
+          <td>{{a.articleStatus}}</td>
+          <td>{{a.viewedCount}}</td>
+          <td>{{a.upVote}}</td>
+          <td>{{a.downVote}}</td>
+          <td>{{a.commentCount}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--3 Editor's Assignments-->
+  <button class="accordion"
+          *ngIf="loginUser.isEditor"
+          (click)="setAccordionSign(3)">
+    {{getAccordionSign(3)}} My Assignments to edit
+  </button>
+  <div *ngIf="this.accordionExpand[3]">
+    <table style="width:90%">
+      <thead>
+        <tr>
+          <th width="30%">Title</th>
+          <th width="30%">Pen Name</th>
+          <th width="15%">Assigned Date</th>
+         </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of this.dashboardPack.editorAssignments">
+          <td>
+            <a href="/articledetails?id={{ a.id }}&isEditable=true">{{ a.title }}</a>
+          </td>
+          <td>
+            <div *ngIf="a.authorIsPublicProfile || this.isAdmin">
+              <a href="/userdetails?id={{ a.authorUserId }}&isEditable=true">{{ a.authorPenName }}</a>
+            </div>
+            <div *ngIf="!(a.authorIsPublicProfile || this.isAdmin)">
+              {{ a.authorPenName }}
+            </div>
+          </td>
+          <td>{{a.assignedDate}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--4 tutor's Assignments-->
+  <button class="accordion"
+          *ngIf="loginUser.isTutor"
+          (click)="setAccordionSign(4)">
+    {{getAccordionSign(4)}} My Assignments to tutor
+  </button>
+  <div *ngIf="this.accordionExpand[4]">
+    My Assignments to tutor
+  </div>
+
+  <!--5 Drawers's Assignments-->
+  <button class="accordion"
+          *ngIf="loginUser.isTutor"
+          (click)="setAccordionSign(5)">
+    {{getAccordionSign(5)}} My Assignments to illustrate
+  </button>
+  <div *ngIf="this.accordionExpand[5]">
+    My Assignments to illustrate
+  </div>
+
+  <!-- 6 Auditor's requests of Editing, tutoring, illustrating-->
+  <button class="accordion"
+          *ngIf="loginUser.isAuditor"
+          (click)="setAccordionSign(6)">
+    {{getAccordionSign(6)}} My requests of dispatching
+  </button>
+  <div *ngIf="this.accordionExpand[6]">
+ 
+      <table style="width:90%">
+        <thead>
+          <tr>
+            <th width="30%">Title</th>
+            <th width="30%">Pen Name</th>
+            <th width="105%">Requested Date</th>
+            <th width="10%">Assigned Purpose</th>
+            <th width="15%">Available Helper</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of this.dashboardPack.auditorAssignments">
+            <td>
+              <a href="/articledetails?id={{ a.id }}&isEditable=true">{{ a.title }}</a>
+            </td>
+            <td>
+              <div *ngIf="a.authorIsPublicProfile || this.isAdmin">
+                <a href="/userdetails?id={{ a.authorUserId }}&isEditable=true">{{ a.authorPenName }}</a>
+              </div>
+              <div *ngIf="!(a.authorIsPublicProfile || this.isAdmin)">
+                {{ a.authorPenName }}
+              </div>
+            </td>
+            <td>{{a.assignedDate}}</td>
+            <td>{{a.assignPurpose}}</td>
+            <td>
+              <select *ngIf="a.assignPurposeCode==1"
+                      [(ngModel)]='a.assignedUserId'>
+                <option *ngFor="let x of this.editors" value="{{x.value }}">
+                  {{x.text}}
+                </option>
+              </select>
+              <select *ngIf="a.assignPurposeCode==3"
+                      [(ngModel)]='a.assignedUserId'>
+                <option *ngFor="let x of this.tutors" value="{{x.value }}">
+                  {{x.text}}
+                </option>
+              </select>
+              <select *ngIf="a.assignPurposeCode==5"
+                      [(ngModel)]='a.assignedUserId'>
+                <option *ngFor="let x of this.drawers" value="{{x.value }}">
+                  {{x.text}}
+                </option>
+              </select>
+              <button class='glyphicon glyphicon-ok-circle'
+                      (click)="this.saveAssignment(a);"></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+  </div>
+
+  <!-- 7 Admin's requests of Role change -->
+  <button class="accordion"
+          *ngIf="loginUser.isAdmin"
+          (click)="setAccordionSign(7)">
+    {{getAccordionSign(7)}} My requests of Role change
+  </button>
+  <div *ngIf="this.accordionExpand[7]">
+    <table style="width:90%">
+      <thead>
+        <tr>
+          <th width="30%">UserName</th>
+          <th width="30%">Request</th>
+          <th width="15%">Grant</th>
+          <th width="15%">Decline</th>
         </tr>
       </thead>
       <tbody>
@@ -85,61 +243,7 @@
       </tbody>
     </table>
   </div>
-  <button class="accordion"
-          *ngIf="loginUser.isEditor"
-          (click)="setAccordionSign(3)">
-    {{getAccordionSign(3)}} My Assignments to edit
-  </button>
-  <div *ngIf="this.accordionExpand[3]">
-    My Assignments to edit
-  </div>
-
-  <button class="accordion"
-          *ngIf="loginUser.isTutor"
-          (click)="setAccordionSign(4)">
-    {{getAccordionSign(4)}} My Assignments to tutor
-  </button>
-  <div *ngIf="this.accordionExpand[4]">
-    My Assignments to tutor
-  </div>
-
-  <button class="accordion"
-          *ngIf="loginUser.isTutor"
-          (click)="setAccordionSign(5)">
-    {{getAccordionSign(5)}} My requests of tutoring
-  </button>
-  <div *ngIf="this.accordionExpand[5]">
-    My requests of tutoring
-  </div>
-
-  <button class="accordion"
-          *ngIf="loginUser.isDrawer"
-          (click)="setAccordionSign(6)">
-    {{getAccordionSign(6)}} My Assignments to illustrate
-  </button>
-  <div *ngIf="this.accordionExpand[6]">
-    My Assignments to illustrate
-  </div>
-
-  <button class="accordion"
-          *ngIf="loginUser.isDrawer"
-          (click)="setAccordionSign(7)">
-    {{getAccordionSign(7)}} My requests of illustrating
-  </button>
-  <div *ngIf="this.accordionExpand[7]">
-    My requests of illustrating
-  </div>
-
-  <button *ngIf="loginUser.isDrawer "
-          (click)="redirectToMyAssignments()"
-          class="wide-margin long-button">
-    My Assignments to illustrate
-  </button>
-  <button *ngIf="loginUser.isAdmin"
-          (click)="redirectToAdmin()"
-          class="wide-margin long-button">
-    Admin Settings
-  </button>
+ 
 </body>  
 
 </html>

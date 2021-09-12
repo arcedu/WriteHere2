@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User, DashboardPack, ArticleRow, ArticleQuery } from '../types';
+import { User, DashboardPack, ArticleRow, ArticleQuery, ArticleAssignment } from '../types';
 
 @Component({
   selector: 'app-memberdashboard-component',
@@ -57,7 +57,7 @@ export class MemberdashboardComponent {
 
   public getDashBoardPackByLoginId() {
 
-    this._http.get<DashboardPack>(this._baseUrl + 'api/Article/GetDashboardPack/?loginId=' + this.loginUser.id)
+    this._http.get<DashboardPack>(this._baseUrl + 'api/User/GetDashboardPack/?loginId=' + this.loginUser.id)
       .subscribe(result => {
         this.dashboardPack = result;
       }, error => console.error(error));
@@ -102,11 +102,23 @@ export class MemberdashboardComponent {
 
     this._http.get<ArticleRow[]>(this._baseUrl + 'api/Article/GetArticleRow/?queryString=' + encodeURIComponent(JSON.stringify(query)))
       .subscribe(result => {
-        this.dashboardPack.myArticles = result;
+        this.dashboardPack.writerArticles = result;
       }, error => console.error(error));
   }
 
+  public saveAssignment(articleAssignment) {
+    this._http.put<any>(this._baseUrl + 'api/Assignment/Update' , articleAssignment)
+      .subscribe(result => {
+        var newarr = this.ArrayRemove(this.dashboardPack.auditorAssignments, articleAssignment);
+        this.dashboardPack.auditorAssignments = newarr;
+      }, error => console.error(error));
+  }
 
+  private  ArrayRemove(arr, value) {
+  return arr.filter(function (ele) {
+    return ele != value;
+  });
+}
   public composeArticle() {
     location.replace("/articledetails?isEditable=true")
 

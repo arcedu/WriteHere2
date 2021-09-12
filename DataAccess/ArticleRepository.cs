@@ -11,7 +11,7 @@ namespace DataAccess
         public static void IncreaseArticleViewedCount(Guid id)
         {
             SqlConnection conn = new SqlConnection(Const.ConnString);
-            var cmd = new SqlCommand("UPDATE Article SET ViewedCount =ViewedCount+1", conn) ;
+            var cmd = new SqlCommand("UPDATE Article SET ViewedCount =ViewedCount+1 WHERE Id = '"+ id.ToString() + "'", conn) ;
           
             try
             {
@@ -129,7 +129,7 @@ namespace DataAccess
 
                 while (rdr.Read())
                 {
-                    var a =  (Guid)rdr["ID"]; ;
+                    var a =  (Guid)rdr["ArticleID"]; ;
                     list.Add(a);
                 }
             }
@@ -280,7 +280,8 @@ namespace DataAccess
             a.UpVote = (rdr["ArticleThumbUpCount"] == DBNull.Value) ? 0 : (int)rdr["ArticleThumbUpCount"];
             a.DownVote = (rdr["ArticleThumbDownCount"] == DBNull.Value) ? 0 : (int)rdr["ArticleThumbDownCount"];
             a.CommentCount = (rdr["ArticleCommentCount"] == DBNull.Value) ? 0 : (int)rdr["ArticleCommentCount"];
-           
+            a.Genre = (rdr["Genre"] == DBNull.Value) ? string.Empty : (string)rdr["Genre"];
+
             return a;
         }
     }

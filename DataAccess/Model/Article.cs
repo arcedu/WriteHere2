@@ -7,12 +7,12 @@ namespace DataAccess
     {
         public Guid? Id;
         public int Vote;
-        public Guid UserID;
+        public Guid UserId;
         public Guid ArticleId;
     }
     public class ArticleVoteQuery
     {
-        public Guid? UserID;
+        public Guid? UserId;
         public Guid? ArticleId;
     }
 

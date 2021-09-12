@@ -24,6 +24,13 @@ export class ArticleCommentQuery {
   articleId: string;
   pastMonths: number;
 }
+
+export class ArticleVote {
+  vote: number;
+  userId: string;
+  articleId: string;
+  }
+
 export class Article {
   comments: ArticleComment[];
   id: string;
@@ -104,44 +111,47 @@ export class User {
   id: string;
   userName: string;
   penName: string;
+  inactive: boolean;
+  showProfile: boolean;
+  showInHall: boolean;
+
+  email: string;
+  showEmail:boolean
   loginPassword: string;
   firstName: string;
   lastName: string;
+  showName: boolean;
   grade: number;
   showGrade: boolean;
   country: string;
   showCountry: boolean;
   state: string;
   showState: boolean;
-  showProfile: boolean;
-  showInHall: boolean;
+  
+
   isAdmin: boolean;
   isReader: boolean;
   isWriter: boolean;
+  writerAd: string;
+  requestingWriter: boolean;
+  requestWriterDeclined: boolean;
   isEditor: boolean;
+  editorAd: string;
+  requestingEditor: boolean;
+  requestEditorDeclined: boolean;
   isAuditor: boolean;
+  requestingAuditor: boolean;
+  requestAuditorDeclined: boolean;
   isDrawer: boolean;
+  drawerAd: string;
+  requestingDrawer: boolean;
+  requestDrawerDeclined: boolean;
   isTutor: boolean;
-  email: string;
+  tutorAd: string;
+  requestingTutor: boolean;
+  requestTutorDeclined: boolean;
 }
 
-
-export class Assignment {
-  id: string;
-  title: string;
-  subtitle: string;
-  articleStatus: string;
-  authorPenName: string;
-  assignedDate: Date;
-  authorUserId: string;
-  authorUserName: string;
-  editorUserId: string;
-  editorUserName: string;
-  acceptDecline: number;
-  genre: string;
-  summary: string;
-  editorReasonNote: string; 
-}
 
 export class StandardResponse {
   success: boolean;
@@ -170,19 +180,27 @@ export class HallOfFamePack {
     mostPublished: HallOfFame[];
     mostRejected: HallOfFame[];
 }
+export class ArticleAssignment
+{
+  articleId: string;
+  articleTitle: string;
+  authorId: string;
+  authorPenName: string;
+  authorIsPublicProfile: boolean;
+  assignedDate:string
+  assignPurpose: string;  // lookup
+  assignPurposeCode: number;
+  assignedUserId: string; // according to value in assignPurpose , display different
+}
 
 export class DashboardPack {
-  myArticles: ArticleRow[]      // Writer Role
-  myLikedArticles: ArticleRow[]  // Reader Role
-  myArticlesToEdit: ArticleRow[]  // Editor Role
-  myArticlesToTutor: ArticleRow[]  // Tutor Role
-  myArticleRequestsToTutor: ArticleRow[]  // Tutor Role
-  myArticlesToDraw: ArticleRow[]  // Drawer Role
-  myArticleRequestsToDraw: ArticleRow[]  // Drawer Role
- // myApprovalRequests  Admin Role : reqest to be a writer,
- // myAssignmentRequests Auditor Role
- // myInMessages:
- // mySentMessages:
+  writerArticles: ArticleRow[]      // Writer Role
+  readerLikedArticles: ArticleRow[]  // Reader Role
+  editorAssignments: ArticleAssignment[]  // Editor Role
+  tutorAssignments: ArticleAssignment[]  // Tutor Role
+  drawerAssignments: ArticleAssignment[]  // Drawer Role
+  auditorAssignments: ArticleAssignment[]  // Auditor Role
+  adminRoleRequests: ArticleAssignment[]  // Admin Role
 }
 export class LookupPack {
   genre:Lookup[]

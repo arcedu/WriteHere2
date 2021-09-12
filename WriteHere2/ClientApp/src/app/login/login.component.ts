@@ -5,9 +5,7 @@ import { User, Lookup, LookupPack } from '../types';
 @Component({
   selector: 'app-login-component',
   templateUrl: './login.component.html',
- // providers: [User],
-//  styleUrls: ['./buttonmargin.component.css', '.././site.component.css' ]
-})
+ })
 
 export class LoginComponent {
   private _baseUrl: string;

@@ -6,18 +6,61 @@ namespace DataAccess
 {
     public static class AssignmentRepository
     {
-        public static Assignment CreateAssignment(Assignment a)
+        public static void Create(AssignmentRequest a)
         {
+            SqlConnection conn = new SqlConnection(Const.ConnString);
+            conn.Open();
+           
+            SqlCommand cmdEditor = new SqlCommand(@"INSERT INTO dbo.[Assignment]
+                AssignedDate, ArticleID, AssignPurpose
+                OUTPUT INSERTED.ID 
+                VALUES (@assignedDate, @articleID, @assignPurpose)", conn);
+            cmdEditor.Parameters.AddWithValue("@assignedDate", DateTime.Today);
+            cmdEditor.Parameters.AddWithValue("@articleID", a.ArticleId);
+            cmdEditor.Parameters.AddWithValue("@assignPurpose", AssignPurpose.ForEditor);
 
+            SqlCommand cmdTutor = new SqlCommand(@"INSERT INTO dbo.[Assignment] 
+                AssignedDate, ArticleID, AssignPurpose
+                OUTPUT INSERTED.ID 
+                VALUES (@assignedDate, @articleID, @assignPurpose)", conn);
+            cmdTutor.Parameters.AddWithValue("@assignedDate", DateTime.Today);
+            cmdTutor.Parameters.AddWithValue("@articleID", a.ArticleId);
+            cmdTutor.Parameters.AddWithValue("@assignPurpose", AssignPurpose.ForTutor);
+
+            SqlCommand cmdDrawer = new SqlCommand(@"INSERT INTO dbo.[Assignment]
+                AssignedDate, ArticleID, AssignPurpose
+                OUTPUT INSERTED.ID 
+                VALUES (@assignedDate, @articleID, @assignPurpose)", conn);
+            cmdDrawer.Parameters.AddWithValue("@assignedDate", DateTime.Today);
+            cmdDrawer.Parameters.AddWithValue("@articleID", a.ArticleId);
+            cmdDrawer.Parameters.AddWithValue("@assignPurpose", AssignPurpose.ForDrawer);
+
+            try
+            {
+                if (a.RequestEditor) { cmdEditor.ExecuteScalar(); }
+                if (a.RequestTutor) { cmdTutor.ExecuteScalar(); }
+                if (a.RequestDrawer) { cmdDrawer.ExecuteScalar(); }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            finally
+            {
+                if (conn != null) { conn.Close(); }
+            }
+           
+            return;
+        }
+
+
+        public static Assignment Update(Assignment a)
+        {
             return a;
         }
-        public static Assignment SaveAssignment(Assignment a)
-        {
-            return a;
-        }
 
 
-        public static void DelteAssignment(Guid id)
+        public static void Delete(Guid id)
         {
 
             return;
@@ -48,13 +91,13 @@ namespace DataAccess
             return a;
         }
 
-        public static List<Assignment> GetAssignmentListByEditorUserId(Guid? userId)
+        public static List<Assignment> GetAssignmentListByAssignedUserId(Guid? userId)
         {
             var sql = "SELECT * FROM dbo.vwAssignmentList";
             if (userId.HasValue)
             {
                 sql += " WHERE ";
-                if (userId.HasValue) { sql += " EditorUserId = @u"; }
+                if (userId.HasValue) { sql += " AssignedUserId = @u"; }
 
             }
 
@@ -83,6 +126,33 @@ namespace DataAccess
             return list;
         }
 
+        public static List<Assignment> GetAssignmentListWithNoAssignedUserId()
+        {
+            var sql = "SELECT * FROM dbo.vwAssignmentList WHERE AssignedUserId IS NULL"; 
+
+            SqlDataReader rdr = null;
+            SqlConnection conn = new SqlConnection(Const.ConnString);
+            SqlCommand cmd = new SqlCommand(sql, conn);
+          
+            var list = new List<Assignment>();
+            try
+            {
+                conn.Open();
+                rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    var a = ReadRow(rdr);
+                    list.Add(a);
+                }
+            }
+            finally
+            {
+                if (rdr != null) { rdr.Close(); }
+                if (conn != null) { conn.Close(); }
+            }
+            return list;
+        }
 
         private static Assignment ReadRow(SqlDataReader rdr)
         {

@@ -18,9 +18,8 @@
               <button *ngIf="isLoggedInWriter()"
                       (click)="redirectToNewArticle()"
                       style="padding: 0; border: none; background: none; background: none;">
-                <span _ngcontent-c1=""
-                      class="glyphicon glyphicon-pencil"
-                      style="color: darkblue;"></span>
+                <img src="../favicon.ico"  style="color: darkblue;" class="smallerimage">
+
 
               </button>
 
@@ -67,12 +66,14 @@
                 <span class='glyphicon glyphicon-education'></span> About Us
               </a>
             </li>
-            <li [routerLinkActive]='["link-active"]'>
+            <li *ngIf="isLoggedInAdmin()"
+                [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-wrench'></span> Fetch data
+                <span class='glyphicon glyphicon-wrench'></span> Admin testing yard
               </a>
             </li>
-            <li [routerLinkActive]='["link-active"]'>
+            <li *ngIf="isLoggedInAdmin()"
+                [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/userlist"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-user'></span> User List
               </a>

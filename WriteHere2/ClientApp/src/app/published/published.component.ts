@@ -9,14 +9,11 @@ import { ArticleRow, ArticleQuery } from '../types';
 export class PublishedComponent {
   private _baseUrl: string;
   private _http: HttpClient;
-  public isLiked: boolean;
   public articles: ArticleRow[];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._baseUrl = baseUrl;
     this._http = http;
-    this.isLiked = true;
-
     this.getPublishedArticleRows();
   }
 

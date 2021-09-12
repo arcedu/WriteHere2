@@ -6,12 +6,11 @@ import { User, Article, ArticleQuery } from '../types';
   selector: 'app-userlist-component',
   templateUrl: './userlist.component.html',
 })
+
 export class UserListComponent {
   private _baseUrl: string;
   private _http: HttpClient;
   public userlist: User[];
-
-
 
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {

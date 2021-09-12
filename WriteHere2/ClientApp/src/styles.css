@@ -71,6 +71,11 @@ button {
   height: 20px;
 }
 
+.smallerimage {
+  width: 15px;
+  height: 15px;
+}
+
 .wide-margin {
   margin-top: 20px;
   margin-bottom: 20px;
